@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">minitoring</string>
+    <string name="avito">Авито</string>
+    <string name="yula">Юла</string>
+    <string name="choose_site">Выбрать сайт для отслеживания</string>
+    <string name="avito_menu">Выбрать рубрики для отслеживания на Авито</string>
+    <string name="yula_menu">Выбрать рубрики для отслеживания на Юла</string>
+</resources>
