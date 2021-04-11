@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -53,9 +54,9 @@ public class AvitoMenuActivity extends Activity {
 //                        Log.i("title", titleText);
                         for (String title : titleList) {
                             Log.i("title", title);
-                            TextView aswitch = new TextView(AvitoMenuActivity.this);
-                            aswitch.setText(title);
-                            containerLayout.addView(aswitch);
+                            Switch aSwitch = new Switch(AvitoMenuActivity.this);
+                            aSwitch.setText(title);
+                            containerLayout.addView(aSwitch);
                         }
 //                        containerLayout.addView(linearLayout);
                     }

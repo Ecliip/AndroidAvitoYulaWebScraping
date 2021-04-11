@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">minitoring</string>
+    <string name="app_name">monitoring</string>
     <string name="avito">Авито</string>
     <string name="welcome_message">Добро пожаловать!</string>
     <string name="searching_menu">Выбрать рубрики для отслеживания</string>
