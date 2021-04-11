@@ -6,12 +6,17 @@ import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AvitoMenuActivity extends Activity {
-    String titleText = "";
+    List<String> titleList = new ArrayList<>();
+//    LinearLayout container = findViewById(R.id.container);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +28,21 @@ public class AvitoMenuActivity extends Activity {
             public void run() {
                 try {
                     Document doc = Jsoup.connect("https://www.avito.ru/rossiya").timeout(60000).get();
-                    Elements title = doc.select(".top-banner-text-GCw-N");
-                    titleText = title.text();
+                    Elements titles = doc.select(".footer-rubricator-block-230_v > ul > li > a");
+                    for (Element title : titles) {
+                        titleList.add(title.text());
+                    }
+//                    titleText = title.text();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i("title", titleText);
+//                        Log.i("title", titleText);
+                        for (String title : titleList) {
+                            Log.i("title", title);
+                        }
                     }
                 });
             }
