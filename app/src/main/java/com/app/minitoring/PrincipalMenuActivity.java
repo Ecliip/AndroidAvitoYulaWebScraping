@@ -18,9 +18,4 @@ public class PrincipalMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AvitoMenuActivity.class);
         startActivity(intent);
     }
-
-    public void onClickGoYula(View view) {
-        Intent intent = new Intent(this, YulaMenuActivity.class);
-        startActivity(intent);
-    }
 }

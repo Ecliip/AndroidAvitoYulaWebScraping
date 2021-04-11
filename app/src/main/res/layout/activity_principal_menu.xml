@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choose_site"
+        android:text="@string/welcome_message"
         android:layout_gravity="center_horizontal"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:layout_marginTop="32dp"
@@ -25,18 +25,7 @@
         android:layout_marginTop="64dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/avito"
-
         android:onClick="onClickGoAvito"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/yula"
-        android:onClick="onClickGoYula"
-        />
-
 
 
 </LinearLayout>

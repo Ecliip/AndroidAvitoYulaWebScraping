@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/avito_menu"
+        android:text="@string/searching_menu"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Large"
