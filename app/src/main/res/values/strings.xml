@@ -3,7 +3,7 @@
     <string name="app_name">monitoring</string>
     <string name="btn_search">Искать</string>
     <string name="welcome_message">Добро пожаловать!</string>
-    <string name="search_message">Введите адрес для поска</string>
+    <string name="search_message">Введите адрес для поиска</string>
     <string name="search_example">https://www.avito.ru/moskva/vakansii/tag/barmen</string>
 
     <!--    SEARCh ACTIVITY-->
