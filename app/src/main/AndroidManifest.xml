@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Minitoring">
         <activity android:name=".AvitoMenuActivity" />
-        <activity android:name=".PrincipalMenuActivity">
+        <activity android:name=".MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
