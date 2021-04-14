@@ -7,8 +7,8 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.app.minitoring.category.AdModel;
-import com.app.minitoring.category.AppDatabase;
+import com.app.minitoring.data.AdModel;
+import com.app.minitoring.data.AppDatabase;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,7 +23,6 @@ public class AvitoSearchActivity extends Activity {
     public static String EXTRA_TARGET_URL = "targetUrl";
     List<AdModel> titleList = new ArrayList<>();
     private AppDatabase db;
-
 
 
     @Override
@@ -68,7 +67,6 @@ public class AvitoSearchActivity extends Activity {
 //                            containerLayout.addView(idView);
                         }
 //                        containerLayout.addView(linearLayout);
-
                     }
                 });
             }

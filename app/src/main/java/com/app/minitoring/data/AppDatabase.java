@@ -1,4 +1,4 @@
-package com.app.minitoring.category;
+package com.app.minitoring.data;
 
 import android.content.Context;
 
@@ -6,11 +6,12 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Category.class}, version = 1)
+@Database(entities = {Ad.class, OriginUrl.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase minstance;
     private static final String DB_NAME = "scrapp_db";
-    public abstract CategoryDAO getCategoryDAO();
+    public abstract AdDAO getAdDAO();
+    public abstract OriginUrlDAO getOriginUrlDAO();
     public static synchronized AppDatabase getInstance(Context ctx) {
         if(minstance == null) {
             minstance = Room.databaseBuilder(ctx.getApplicationContext(),

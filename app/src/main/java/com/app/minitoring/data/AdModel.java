@@ -1,4 +1,4 @@
-package com.app.minitoring.category;
+package com.app.minitoring.data;
 
 public class AdModel {
     private String name;

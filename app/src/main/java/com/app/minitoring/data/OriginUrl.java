@@ -1,21 +1,21 @@
-package com.app.minitoring.category;
+package com.app.minitoring.data;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(indices = {@Index(value = {"name", "url"},
+@Entity(indices = {@Index(value = {"url"},
         unique = true)})
-public class Category {
+public class OriginUrl {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     public int id;
-    public String name;
     public String url;
-    public Category(String name, String url) {
-        this.name = name;
+
+    public OriginUrl(String url) {
         this.url = url;
     }
-    public Category() {}
+
+    public OriginUrl() {}
 }
