@@ -1,14 +1,13 @@
 package com.app.minitoring;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.app.minitoring.data.AdModel;
-import com.app.minitoring.data.AppDatabase;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,10 +18,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvitoSearchActivity extends Activity {
+public class AvitoSearchActivity extends AppCompatActivity {
     public static String EXTRA_TARGET_URL = "targetUrl";
     List<AdModel> titleList = new ArrayList<>();
-    private AppDatabase db;
+    private AdViewModel mAdViewModel;
+
 
 
     @Override
@@ -35,6 +35,8 @@ public class AvitoSearchActivity extends Activity {
         Intent intent = getIntent();
         String targetUlrText = intent.getStringExtra(EXTRA_TARGET_URL);
         targetUrlView.setText(targetUlrText);
+
+        mAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(AdViewModel.class);
 
         new Thread(new Runnable() {
             @Override
@@ -57,13 +59,19 @@ public class AvitoSearchActivity extends Activity {
                     public void run() {
 //                        Log.i("title", titleText);
                         for (AdModel categoryModel : titleList) {
-                            Log.i("title", categoryModel.getName());
-                            Log.i("id", categoryModel.getId());
+                            String adTitle = categoryModel.getName();
+                            String adIdByAvito = categoryModel.getId();
+                            Log.i("title", adTitle);
+                            Log.i("id", adIdByAvito);
                             TextView nameView = new TextView(AvitoSearchActivity.this);
                             TextView idView = new TextView(AvitoSearchActivity.this);
-                            nameView.setText(categoryModel.getName());
-                            idView.setText(categoryModel.getId());
+                            nameView.setText(adTitle);
+                            idView.setText(adIdByAvito);
                             containerLayout.addView(nameView);
+
+                            Ad ad = new Ad(adIdByAvito, adTitle, "unknown", EXTRA_TARGET_URL);
+                            mAdViewModel.insert(ad);
+
 //                            containerLayout.addView(idView);
                         }
 //                        containerLayout.addView(linearLayout);

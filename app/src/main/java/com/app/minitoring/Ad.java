@@ -1,4 +1,4 @@
-package com.app.minitoring.data;
+package com.app.minitoring;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -14,5 +14,13 @@ public class Ad {
     public String avito_ad_id;
     public String name;
     public String url;
+    public String user_query;
 
+
+    public Ad(@NonNull String avito_ad_id, @NonNull String name, @NonNull String url, @NonNull String user_query) {
+        this.avito_ad_id = avito_ad_id;
+        this.name = name;
+        this.url = url;
+        this.user_query = user_query;
+    }
 }
