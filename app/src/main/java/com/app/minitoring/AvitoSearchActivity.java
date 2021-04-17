@@ -3,6 +3,7 @@ package com.app.minitoring;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,10 +26,24 @@ public class AvitoSearchActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avito_search);
+        mAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(AdViewModel.class);
+    }
+
+    public void onClickDeleteData(View view) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mAdViewModel.removeAllAds();
+            }
+        }).start();
+    }
+
+    public void onClickScan(View view) {
         LinearLayout containerLayout = findViewById(R.id.main_container);
 
         final TextView targetUrlView = findViewById(R.id.viewUrl);
@@ -36,7 +51,6 @@ public class AvitoSearchActivity extends AppCompatActivity {
         String targetUlrText = intent.getStringExtra(EXTRA_TARGET_URL);
         targetUrlView.setText(targetUlrText);
 
-        mAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(AdViewModel.class);
 
         new Thread(new Runnable() {
             @Override
@@ -70,10 +84,11 @@ public class AvitoSearchActivity extends AppCompatActivity {
                             containerLayout.addView(nameView);
 
                             Ad ad = new Ad(adIdByAvito, adTitle, "unknown", EXTRA_TARGET_URL);
-                            mAdViewModel.insert(ad);
+//                            mAdViewModel.insert(ad);
 
 //                            containerLayout.addView(idView);
                         }
+                        mAdViewModel.callWorkManager();
 //                        containerLayout.addView(linearLayout);
                     }
                 });

@@ -33,4 +33,10 @@ class AdRepository {
             mAdDAO.insertAd(ad);
         });
     }
+
+    void removeAllAds() {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mAdDAO.deleteAll();
+        });
+    }
 }
