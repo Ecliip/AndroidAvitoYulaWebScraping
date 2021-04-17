@@ -33,7 +33,6 @@ public class AdScraper {
 //
 //               Ad ad = new Ad("fakeId-" + counterVal, counterVal, "fakeUrl"+ counterVal, "fakeQuery"+ counterVal);
 
-
                // TEST SCAN
                new Thread(new Runnable() {
                    @Override
@@ -56,8 +55,6 @@ public class AdScraper {
                }).start();
 
                // END TEST SCAN
-
-
                handler.postDelayed(this, 30000);
            }
        });
