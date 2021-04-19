@@ -26,4 +26,7 @@ public interface AdDAO {
 
     @Query("DELETE FROM Ad")
     void deleteAll();
+
+    @Query("SELECT * FROM Ad WHERE avito_ad_id = :avitoAdId")
+    public Ad checkIfExtists(String avitoAdId);
 }

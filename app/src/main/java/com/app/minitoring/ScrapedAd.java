@@ -11,9 +11,13 @@ public class ScrapedAd {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     public long scrapedAdId;
+    @NonNull
     public String avito_ad_id;
+    @NonNull
     public String name;
+    @NonNull
     public String url;
+    @NonNull
     public String user_query;
 
 

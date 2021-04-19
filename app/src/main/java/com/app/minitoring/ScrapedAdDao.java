@@ -26,8 +26,8 @@ public interface ScrapedAdDao {
 
 //    ROOM FINISH THIS QUERY LATER
 //    https://stackoverflow.com/questions/4253960/sql-how-to-properly-check-if-a-record-exists
-//    @Query("SELECT 1 FROM ScrapedAd WHERE")
-//    public List<Ad> checkIfExtists();
+    @Query("SELECT 1 FROM ScrapedAd WHERE avito_ad_id = :avitoAdId")
+    public ScrapedAd checkIfExtists(String avitoAdId);
 
     @Query("DELETE FROM Ad")
     void deleteAll();
