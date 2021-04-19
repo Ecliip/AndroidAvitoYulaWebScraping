@@ -24,18 +24,17 @@ public class AdViewModel extends AndroidViewModel {
     }
 
     public void callWorkManager(String tartgetUrl) {
-        System.out.println(tartgetUrl);
+        // STORING QUERY-URL AND PASSING IT TO AD-WORKER INSTANCE
         Data.Builder builder = new Data.Builder();
         if (tartgetUrl != null) {
             builder.putString("targetUrl", tartgetUrl);
         }
         Data data = builder.build();
-
-        OneTimeWorkRequest blurRequest =
+        OneTimeWorkRequest adRequest =
                 new OneTimeWorkRequest.Builder(AdWorker.class)
                         .setInputData(data)
                         .build();
-        mWorkManager.enqueue(blurRequest);
+        mWorkManager.enqueue(adRequest);
     }
 
     LiveData<List<Ad>> getAllAds() { return mAllAds; }
