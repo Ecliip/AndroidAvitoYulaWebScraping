@@ -12,17 +12,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdWorker extends Worker {
     private static final String TAG = AdWorker.class.getSimpleName();
     private final AdDAO repo;
+    private final String avitoBaseUrl;
 //    private long counter = 1;
 
     public AdWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         repo = AppDatabase.getDatabase(getApplicationContext()).adDAO();
+        Constants constants = new Constants();
+        avitoBaseUrl = constants.getAVITO_BASE_URL();
     }
 
     @NonNull
@@ -30,7 +31,6 @@ public class AdWorker extends Worker {
     public Result doWork() {
         Context applicationContext = getApplicationContext();
         String targetUrl = getInputData().getString("targetUrl");
-        final List<AdModel> adTitles = new ArrayList<>();
         System.out.println(targetUrl);
 
         try {
@@ -39,12 +39,16 @@ public class AdWorker extends Worker {
                     .get();
             Elements ads = doc.select(".iva-item-root-G3n7v");
             for (Element ad : ads) {
+                Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
+                String headingHref = heading.selectFirst("a").attr("href");
+
                 String adName = ad.select("h3").text();
                 String id = ad.attr("id");
                 AdModel aCategory = new AdModel(adName, id);
-                adTitles.add(aCategory);
-                System.out.println(aCategory.getName());
-                Ad adRecord = new Ad(id, adName, "CHANGE", targetUrl);
+                System.out.println(adName);
+                headingHref = avitoBaseUrl.concat(headingHref);
+                System.out.println(headingHref);
+                Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
                 repo.insertAd(adRecord);
             }
             return Result.success();
