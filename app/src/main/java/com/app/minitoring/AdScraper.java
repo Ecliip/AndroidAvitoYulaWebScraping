@@ -38,7 +38,9 @@ public class AdScraper {
                    @Override
                    public void run() {
                        try {
-                           Document doc = Jsoup.connect(targetUrl).timeout(60000).get();
+                           Document doc = Jsoup.connect(targetUrl)
+                                   .timeout(60000)
+                                   .get();
                            Elements ads = doc.select(".iva-item-root-G3n7v");
                            for (Element ad : ads) {
                                String adName = ad.select("h3").text();

@@ -46,8 +46,9 @@ public class AvitoSearchActivity extends AppCompatActivity {
 
 
         // TESTING
-        AdScraper scraper = new AdScraper();
-        scraper.scan(targetUlrText);
+//        AdScraper scraper = new AdScraper();
+//        scraper.scan(targetUlrText);
+        mAdViewModel.callWorkManager(targetUlrText);
         // END-TESTING
 
 
