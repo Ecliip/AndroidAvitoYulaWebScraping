@@ -29,7 +29,6 @@ public class AdWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Context applicationContext = getApplicationContext();
         String targetUrl = getInputData().getString("targetUrl");
         System.out.println(targetUrl);
 
@@ -51,6 +50,8 @@ public class AdWorker extends Worker {
                 Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
                 repo.insertAd(adRecord);
             }
+
+
             return Result.success();
 //                    titleText = title.text();
         } catch (IOException e) {

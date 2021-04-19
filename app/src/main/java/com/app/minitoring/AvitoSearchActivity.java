@@ -18,8 +18,6 @@ public class AvitoSearchActivity extends AppCompatActivity {
     private AdViewModel mAdViewModel;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,34 +42,12 @@ public class AvitoSearchActivity extends AppCompatActivity {
         String targetUlrText = intent.getStringExtra(EXTRA_TARGET_URL);
         targetUrlView.setText(targetUlrText);
 
-
         // TESTING
-//        AdScraper scraper = new AdScraper();
-//        scraper.scan(targetUlrText);
         mAdViewModel.callWorkManager(targetUlrText);
+
+        AdScraper scraper = new AdScraper();
+        scraper.scan(targetUlrText);
         // END-TESTING
-
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Document doc = Jsoup.connect(targetUlrText).timeout(60000).get();
-//                    Elements ads = doc.select(".iva-item-root-G3n7v");
-//                    for (Element ad : ads) {
-//                        String adName = ad.select("h3").text();
-//                        String id = ad.attr("id");
-//                        AdModel aCategory = new AdModel(adName, id);
-//                        titleList.add(aCategory);
-//                    }
-////                    titleText = title.text();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
-
-
-
 
 //                runOnUiThread(new Runnable() {
 //                    @Override
@@ -98,21 +74,5 @@ public class AvitoSearchActivity extends AppCompatActivity {
 //            }
 //        }).start();
     }
-
-//    private void saveData() {
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Person person = new Person(mlastname, mfirstname);
-//                PersonDAO dao = db.getPersonDAO();
-//                dao.insertPerson(person);
-//                List<Person> people = dao.listPeople();
-//                for(Person p:people) {
-//                    System.out.printf("%s , %s\n", p.last_name, p.first_name );
-//                }
-//            }
-//        }).start();
-//    }
 
 }

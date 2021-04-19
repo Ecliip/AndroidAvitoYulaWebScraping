@@ -17,22 +17,22 @@ public class AdScraper {
     private AdRepository repository;
     private boolean run = false;
     private List<AdModel> adTitles = new ArrayList<>();
+    private final String avitoBaseUrl;
 
 //    public void AdRepository(AdRepository repository) {
 //        this.repository = repository;
 //    }
+
+    public AdScraper() {
+        Constants constants = new Constants();
+        avitoBaseUrl = constants.getAVITO_BASE_URL();
+    }
 
     public void scan(String targetUrl) {
        final Handler handler = new Handler(Looper.myLooper());
        handler.post(new Runnable() {
            @Override
            public void run() {
-//               int random = new Random().nextInt();
-//               String counterVal = Integer.toString(random);
-//               System.out.println(random);
-//
-//               Ad ad = new Ad("fakeId-" + counterVal, counterVal, "fakeUrl"+ counterVal, "fakeQuery"+ counterVal);
-
                // TEST SCAN
                new Thread(new Runnable() {
                    @Override
@@ -43,11 +43,16 @@ public class AdScraper {
                                    .get();
                            Elements ads = doc.select(".iva-item-root-G3n7v");
                            for (Element ad : ads) {
+                               Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
+                               String headingHref = heading.selectFirst("a").attr("href");
+
                                String adName = ad.select("h3").text();
                                String id = ad.attr("id");
-                               AdModel aCategory = new AdModel(adName, id);
-                               adTitles.add(aCategory);
-                               System.out.println(aCategory.getName());
+                               System.out.println(adName);
+                               headingHref = avitoBaseUrl.concat(headingHref);
+                               System.out.println(headingHref);
+//                               Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
+//                               repo.insertAd(adRecord);
                            }
 //                    titleText = title.text();
                        } catch (IOException e) {
