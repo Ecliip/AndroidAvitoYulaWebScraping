@@ -9,15 +9,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 public class AvitoSearchActivity extends AppCompatActivity {
     public static String EXTRA_TARGET_URL = "targetUrl";
     private AdViewModel mAdViewModel;
     private ScrapedAdViewModel mScrapedAdViewModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +42,6 @@ public class AvitoSearchActivity extends AppCompatActivity {
 
         scraper.scan(targetUlrText);
         // END-TESTING
-
 //                runOnUiThread(new Runnable() {
 //                    @Override
 //                    public void run() {

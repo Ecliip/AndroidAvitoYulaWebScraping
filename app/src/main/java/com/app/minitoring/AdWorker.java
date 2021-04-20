@@ -18,7 +18,6 @@ public class AdWorker extends Worker {
     private final AdDAO repo;
     private final String avitoBaseUrl;
     private final String CLASS_TAG = "AdWorker.class";
-//    private long counter = 1;
 
     public AdWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -50,14 +49,11 @@ public class AdWorker extends Worker {
                 repo.insertAd(adRecord);
             }
 
-
             return Result.success();
-//                    titleText = title.text();
         } catch (IOException e) {
             e.printStackTrace();
             return Result.failure();
         }
 
     }
-
 }

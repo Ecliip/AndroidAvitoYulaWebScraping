@@ -24,8 +24,6 @@ public interface ScrapedAdDao {
     @Query("SELECT * FROM ScrapedAd")
     public LiveData<List<ScrapedAd>> listAds();
 
-//    ROOM FINISH THIS QUERY LATER
-//    https://stackoverflow.com/questions/4253960/sql-how-to-properly-check-if-a-record-exists
     @Query("SELECT * FROM ScrapedAd WHERE avito_ad_id = :avitoAdId")
     public LiveData<List<ScrapedAd>> checkIfExtists(String avitoAdId);
 

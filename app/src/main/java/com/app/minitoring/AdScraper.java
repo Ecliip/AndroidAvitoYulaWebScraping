@@ -20,10 +20,6 @@ public class AdScraper {
     private final AdDAO adDao;
     private final String TAG = "AdScraper.class";
 
-//    public void AdRepository(AdRepository repository) {
-//        this.repository = repository;
-//    }
-
     public AdScraper(Context applicationContext) {
         Constants constants = new Constants();
         avitoBaseUrl = constants.getAVITO_BASE_URL();
@@ -56,8 +52,6 @@ public class AdScraper {
                                System.out.println(headingHref);
                                Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
                                Ad result = adDao.checkIfExtists(id);
-//                               Log.i("coincidence", result.name);
-
                            }
                            scrapedAdDao.insertAd(new ScrapedAd("fjdslfjsf", "jfslfjs", "jdslfjsl", "jfdslfjs"));
 //                    titleText = title.text();

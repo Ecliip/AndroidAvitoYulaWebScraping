@@ -20,7 +20,6 @@ public class ScrapedAd {
     @NonNull
     public String user_query;
 
-
     public ScrapedAd(@NonNull String avito_ad_id, @NonNull String name, @NonNull String url, @NonNull String user_query) {
         this.avito_ad_id = avito_ad_id;
         this.name = name;
