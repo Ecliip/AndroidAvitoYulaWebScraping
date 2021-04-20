@@ -11,15 +11,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdScraper {
     private AdRepository repository;
     private boolean run = false;
-    private List<AdModel> adTitles = new ArrayList<>();
     private final String avitoBaseUrl;
     private final ScrapedAdDao scrapedAdDao;
+    private final AdDAO adDao;
+    private final String TAG = "AdScraper.class";
 
 //    public void AdRepository(AdRepository repository) {
 //        this.repository = repository;
@@ -29,11 +28,12 @@ public class AdScraper {
         Constants constants = new Constants();
         avitoBaseUrl = constants.getAVITO_BASE_URL();
         scrapedAdDao = AppDatabase.getDatabase(applicationContext).scrapedAdDao();
+        adDao = AppDatabase.getDatabase(applicationContext).adDAO();
     }
 
     public void scan(String targetUrl) {
        final Handler handler = new Handler(Looper.myLooper());
-       handler.post(new Runnable() {
+       handler.postDelayed (new Runnable() {
            @Override
            public void run() {
                // TEST SCAN
@@ -49,11 +49,15 @@ public class AdScraper {
                                Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
                                String headingHref = heading.selectFirst("a").attr("href");
                                String adName = ad.select("h3").text();
+                               // avito ad id
                                String id = ad.attr("id");
-                               System.out.println(adName);
+                               System.out.println(String.format("%s: %s", TAG, adName));
                                headingHref = avitoBaseUrl.concat(headingHref);
                                System.out.println(headingHref);
                                Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
+                               Ad result = adDao.checkIfExtists(id);
+//                               Log.i("coincidence", result.name);
+
                            }
                            scrapedAdDao.insertAd(new ScrapedAd("fjdslfjsf", "jfslfjs", "jdslfjsl", "jfdslfjs"));
 //                    titleText = title.text();
@@ -66,7 +70,7 @@ public class AdScraper {
                // END TEST SCAN
                handler.postDelayed(this, 30000);
            }
-       });
+       },30000);
     }
     public AdRepository getRepository() {
         return repository;

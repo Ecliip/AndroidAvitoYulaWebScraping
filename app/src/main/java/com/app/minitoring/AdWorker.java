@@ -17,6 +17,7 @@ public class AdWorker extends Worker {
     private static final String TAG = AdWorker.class.getSimpleName();
     private final AdDAO repo;
     private final String avitoBaseUrl;
+    private final String CLASS_TAG = "AdWorker.class";
 //    private long counter = 1;
 
     public AdWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -43,10 +44,8 @@ public class AdWorker extends Worker {
 
                 String adName = ad.select("h3").text();
                 String id = ad.attr("id");
-                AdModel aCategory = new AdModel(adName, id);
-                System.out.println(adName);
                 headingHref = avitoBaseUrl.concat(headingHref);
-                System.out.println(headingHref);
+                System.out.println(String.format("%s: %s", CLASS_TAG, adName));
                 Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
                 repo.insertAd(adRecord);
             }
