@@ -16,6 +16,7 @@ public class AvitoSearchActivity extends AppCompatActivity {
     public static String EXTRA_TARGET_URL = "targetUrl";
     List<AdModel> titleList = new ArrayList<>();
     private AdViewModel mAdViewModel;
+    private ScrapedAdViewModel mScrapedAdViewModel;
 
 
     @Override
@@ -23,15 +24,12 @@ public class AvitoSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avito_search);
         mAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(AdViewModel.class);
+        mScrapedAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(ScrapedAdViewModel.class);
     }
 
     public void onClickDeleteData(View view) {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
                 mAdViewModel.removeAllAds();
-//            }
-//        }).start();
+                mScrapedAdViewModel.removeAllAds();
     }
 
     public void onClickScan(View view) {
@@ -45,7 +43,6 @@ public class AvitoSearchActivity extends AppCompatActivity {
         // TESTING
         mAdViewModel.callWorkManager(targetUlrText);
 
-//        AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
         AdScraper scraper = new AdScraper(getApplicationContext());
         scraper.scan(targetUlrText);
         // END-TESTING
