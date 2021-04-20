@@ -1,6 +1,7 @@
 package com.app.minitoring;
 
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -18,14 +19,16 @@ public class AdScraper {
     private boolean run = false;
     private List<AdModel> adTitles = new ArrayList<>();
     private final String avitoBaseUrl;
+    private final ScrapedAdDao scrapedAdDao;
 
 //    public void AdRepository(AdRepository repository) {
 //        this.repository = repository;
 //    }
 
-    public AdScraper() {
+    public AdScraper(Context applicationContext) {
         Constants constants = new Constants();
         avitoBaseUrl = constants.getAVITO_BASE_URL();
+        scrapedAdDao = AppDatabase.getDatabase(applicationContext).scrapedAdDao();
     }
 
     public void scan(String targetUrl) {
@@ -45,15 +48,14 @@ public class AdScraper {
                            for (Element ad : ads) {
                                Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
                                String headingHref = heading.selectFirst("a").attr("href");
-
                                String adName = ad.select("h3").text();
                                String id = ad.attr("id");
                                System.out.println(adName);
                                headingHref = avitoBaseUrl.concat(headingHref);
                                System.out.println(headingHref);
-//                               Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
-//                               repo.insertAd(adRecord);
+                               Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
                            }
+                           scrapedAdDao.insertAd(new ScrapedAd("fjdslfjsf", "jfslfjs", "jdslfjsl", "jfdslfjs"));
 //                    titleText = title.text();
                        } catch (IOException e) {
                            e.printStackTrace();

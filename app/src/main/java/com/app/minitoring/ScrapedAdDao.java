@@ -13,22 +13,22 @@ import java.util.List;
 @Dao
 public interface ScrapedAdDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertAd(Ad ad);
+    void insertAd(ScrapedAd scrapedAd);
 
     @Update
-    void updateAd(Ad ad);
+    void updateAd(ScrapedAd scrapedAd);
 
     @Delete
-    void deleteAd(Ad ad);
+    void deleteAd(ScrapedAd scrapedAd);
 
-    @Query("SELECT * FROM Ad")
-    public LiveData<List<Ad>> listAds();
+    @Query("SELECT * FROM ScrapedAd")
+    public LiveData<List<ScrapedAd>> listAds();
 
 //    ROOM FINISH THIS QUERY LATER
 //    https://stackoverflow.com/questions/4253960/sql-how-to-properly-check-if-a-record-exists
-    @Query("SELECT 1 FROM ScrapedAd WHERE avito_ad_id = :avitoAdId")
-    public ScrapedAd checkIfExtists(String avitoAdId);
+    @Query("SELECT * FROM ScrapedAd WHERE avito_ad_id = :avitoAdId")
+    public LiveData<List<ScrapedAd>> checkIfExtists(String avitoAdId);
 
-    @Query("DELETE FROM Ad")
+    @Query("DELETE FROM ScrapedAd")
     void deleteAll();
 }

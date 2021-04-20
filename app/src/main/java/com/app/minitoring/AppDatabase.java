@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AdDAO adDAO();
+    public abstract ScrapedAdDao scrapedAdDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

@@ -26,12 +26,12 @@ public class AvitoSearchActivity extends AppCompatActivity {
     }
 
     public void onClickDeleteData(View view) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
                 mAdViewModel.removeAllAds();
-            }
-        }).start();
+//            }
+//        }).start();
     }
 
     public void onClickScan(View view) {
@@ -45,7 +45,8 @@ public class AvitoSearchActivity extends AppCompatActivity {
         // TESTING
         mAdViewModel.callWorkManager(targetUlrText);
 
-        AdScraper scraper = new AdScraper();
+//        AppDatabase appDatabase = AppDatabase.getDatabase(getApplicationContext());
+        AdScraper scraper = new AdScraper(getApplicationContext());
         scraper.scan(targetUlrText);
         // END-TESTING
 
