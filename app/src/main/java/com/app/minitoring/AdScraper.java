@@ -39,7 +39,7 @@ public class AdScraper {
                    public void run() {
                        try {
                            Document doc = Jsoup.connect(targetUrl)
-//                                   .userAgent("Chrome/90.0.4430.85")
+                                   .userAgent("Chrome/90.0.4430.85")
                                    .referrer("http://www.google.com")
 //                                   .timeout(10000)
                                    .get();
@@ -53,7 +53,6 @@ public class AdScraper {
                                headingHref = avitoBaseUrl.concat(headingHref);
                                ScrapedAd scrapedAd = new ScrapedAd(id, adName, headingHref, targetUrl);
                                Ad adResult = adDao.checkIfExtists(scrapedAd.getAvito_ad_id());
-//                               System.out.println(String.format("%s: %s - %s", TAG, adName, id));
                                ScrapedAd scrapedAdResult = scrapedAdDao.checkIfExists(id);
 
                                if (adResult == null && scrapedAdResult == null) {

@@ -35,7 +35,7 @@ public class AdWorker extends Worker {
         try {
 
             Document doc = Jsoup.connect(targetUrl)
-//                    .userAgent("Chrome/90.0.4430.85")
+                    .userAgent("Chrome/90.0.4430.85")
                     .referrer("http://www.google.com")
 //                    .timeout(10000)
                     .get();

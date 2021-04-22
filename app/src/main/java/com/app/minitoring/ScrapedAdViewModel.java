@@ -22,6 +22,6 @@ public class ScrapedAdViewModel extends AndroidViewModel {
     public void insert(ScrapedAd ad) { mRepository.insert(ad); }
 
     public void removeAllAds() {
-        mRepository.removeAllAds();
+        mRepository.removeAllScrapedAds();
     }
 }
