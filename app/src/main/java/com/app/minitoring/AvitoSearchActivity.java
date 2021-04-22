@@ -36,69 +36,22 @@ public class AvitoSearchActivity extends AppCompatActivity {
     }
 
 
-
-    public void onClickDeleteData(View view) {
-                mAdViewModel.removeAllAds();
-                mScrapedAdViewModel.removeAllAds();
+    public void onClickScan(View view) {
+        startScanning();
     }
 
-    public void onClickScan(View view) {
-//        startScanning();
+    public void startScanning() {
         mAdViewModel.removeAllAds();
         mScrapedAdViewModel.removeAllAds();
-
-//        LinearLayout containerLayout = findViewById(R.id.main_container);
 
         final TextView targetUrlView = findViewById(R.id.current_url);
         Intent intent = getIntent();
         String targetUlrText = intent.getStringExtra(EXTRA_TARGET_URL);
         targetUrlView.setText(targetUlrText);
 
-        // TESTING
         mAdViewModel.callWorkManager(targetUlrText);
-
         AdScraper scraper = new AdScraper(getApplicationContext());
-
         scraper.scan(targetUlrText);
-        // END-TESTING
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        Log.i("title", titleText);
-//                        for (AdModel categoryModel : titleList) {
-//                            String adTitle = categoryModel.getName();
-//                            String adIdByAvito = categoryModel.getId();
-//                            Log.i("title", adTitle);
-//                            Log.i("id", adIdByAvito);
-//                            TextView nameView = new TextView(AvitoSearchActivity.this);
-//                            TextView idView = new TextView(AvitoSearchActivity.this);
-//                            nameView.setText(adTitle);
-//                            idView.setText(adIdByAvito);
-//                            containerLayout.addView(nameView);
-//
-//                            Ad ad = new Ad(adIdByAvito, adTitle, "unknown", EXTRA_TARGET_URL);
-////                            mAdViewModel.insert(ad);
-//
-////                            containerLayout.addView(idView);
-//                        }
-//                    }
-//                });
-//            }
-//        }).start();
-    }
-
-    public void startScanning() {
-//        mAdViewModel.removeAllAds();
-//        mScrapedAdViewModel.removeAllAds();
-//
-//        final TextView targetUrlView = findViewById(R.id.current_url);
-//        Intent intent = getIntent();
-//        String targetUlrText = intent.getStringExtra(EXTRA_TARGET_URL);
-//        targetUrlView.setText(targetUlrText);
-//
-//        mAdViewModel.callWorkManager(targetUlrText);
-//        AdScraper scraper = new AdScraper(getApplicationContext());
-//        scraper.scan(targetUlrText);
     }
 
 }
