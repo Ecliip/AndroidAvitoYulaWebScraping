@@ -4,6 +4,7 @@ package com.app.minitoring;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -38,7 +39,9 @@ public class AdScraper {
                    public void run() {
                        try {
                            Document doc = Jsoup.connect(targetUrl)
-                                   .timeout(60000)
+//                                   .userAgent("Chrome/90.0.4430.85")
+                                   .referrer("http://www.google.com")
+//                                   .timeout(10000)
                                    .get();
                            Elements ads = doc.select(".iva-item-root-G3n7v");
                            for (Element ad : ads) {
@@ -47,14 +50,17 @@ public class AdScraper {
                                String adName = ad.select("h3").text();
                                // avito ad id
                                String id = ad.attr("id");
-                               System.out.println(String.format("%s: %s", TAG, adName));
                                headingHref = avitoBaseUrl.concat(headingHref);
-                               System.out.println(headingHref);
-                               Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
-                               Ad result = adDao.checkIfExtists(id);
+                               ScrapedAd scrapedAd = new ScrapedAd(id, adName, headingHref, targetUrl);
+                               Ad adResult = adDao.checkIfExtists(scrapedAd.getAvito_ad_id());
+//                               System.out.println(String.format("%s: %s - %s", TAG, adName, id));
+                               ScrapedAd scrapedAdResult = scrapedAdDao.checkIfExists(id);
+
+                               if (adResult == null && scrapedAdResult == null) {
+                                   Log.i("NEW ADD", String.format("%s: %s - %s", TAG, adName, id));
+                                   scrapedAdDao.insertAd(scrapedAd);
+                               }
                            }
-                           scrapedAdDao.insertAd(new ScrapedAd("fjdslfjsf", "jfslfjs", "jdslfjsl", "jfdslfjs"));
-//                    titleText = title.text();
                        } catch (IOException e) {
                            e.printStackTrace();
                        }

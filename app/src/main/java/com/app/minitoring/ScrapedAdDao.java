@@ -25,7 +25,7 @@ public interface ScrapedAdDao {
     public LiveData<List<ScrapedAd>> listAds();
 
     @Query("SELECT * FROM ScrapedAd WHERE avito_ad_id = :avitoAdId")
-    public LiveData<List<ScrapedAd>> checkIfExtists(String avitoAdId);
+    public ScrapedAd checkIfExists(String avitoAdId);
 
     @Query("DELETE FROM ScrapedAd")
     void deleteAll();

@@ -10,20 +10,48 @@ import androidx.room.PrimaryKey;
 public class ScrapedAd {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    public long scrapedAdId;
+    private long scrapedAdId;
     @NonNull
-    public String avito_ad_id;
+    private final String avito_ad_id;
     @NonNull
-    public String name;
+    private final String name;
     @NonNull
-    public String url;
+    private final String url;
     @NonNull
-    public String user_query;
+    private final String user_query;
 
     public ScrapedAd(@NonNull String avito_ad_id, @NonNull String name, @NonNull String url, @NonNull String user_query) {
         this.avito_ad_id = avito_ad_id;
         this.name = name;
         this.url = url;
         this.user_query = user_query;
+    }
+
+    public long getScrapedAdId() {
+        return scrapedAdId;
+    }
+
+    @NonNull
+    public String getAvito_ad_id() {
+        return avito_ad_id;
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    @NonNull
+    public String getUrl() {
+        return url;
+    }
+
+    @NonNull
+    public String getUser_query() {
+        return user_query;
+    }
+
+    public void setScrapedAdId(long scrapedAdId) {
+        this.scrapedAdId = scrapedAdId;
     }
 }

@@ -33,8 +33,11 @@ public class AdWorker extends Worker {
         System.out.println(targetUrl);
 
         try {
+
             Document doc = Jsoup.connect(targetUrl)
-                    .timeout(60000)
+//                    .userAgent("Chrome/90.0.4430.85")
+                    .referrer("http://www.google.com")
+//                    .timeout(10000)
                     .get();
             Elements ads = doc.select(".iva-item-root-G3n7v");
             for (Element ad : ads) {
@@ -44,7 +47,7 @@ public class AdWorker extends Worker {
                 String adName = ad.select("h3").text();
                 String id = ad.attr("id");
                 headingHref = avitoBaseUrl.concat(headingHref);
-                System.out.println(String.format("%s: %s", CLASS_TAG, adName));
+                System.out.println(String.format("%s: %s - %s", CLASS_TAG, adName, id));
                 Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
                 repo.insertAd(adRecord);
             }
