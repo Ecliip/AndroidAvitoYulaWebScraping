@@ -1,4 +1,4 @@
-package com.app.minitoring;
+package com.app.monitoring;
 
 import android.view.LayoutInflater;
 import android.view.View;

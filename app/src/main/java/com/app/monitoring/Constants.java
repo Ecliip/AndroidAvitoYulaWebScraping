@@ -1,4 +1,4 @@
-package com.app.minitoring;
+package com.app.monitoring;
 
 public class Constants {
     private final String AVITO_BASE_URL = "https://www.avito.ru";

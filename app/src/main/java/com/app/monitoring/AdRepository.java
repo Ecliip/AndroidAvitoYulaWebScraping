@@ -1,4 +1,4 @@
-package com.app.minitoring;
+package com.app.monitoring;
 
 import android.app.Application;
 

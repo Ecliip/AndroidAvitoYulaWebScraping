@@ -1,11 +1,17 @@
 <resources>
     <!--    MAIN    -->
-    <string name="app_name">monitoring</string>
-    <string name="btn_search">Искать</string>
-    <string name="welcome_message">Добро пожаловать!</string>
+    <string name="app_name">App</string>
+    <string name="subscribeBtn">Подписаться</string>
     <string name="search_message">Введите адрес для поиска</string>
     <string name="search_example">https://www.avito.ru/moskva/vakansii/tag/barmen</string>
 
     <!--    SEARCh ACTIVITY-->
     <string name="searching_menu">Выбранный URL для отслеживания</string>
+    <string name="stobBtn">Стоп</string>
+    <string name="startBtn">Старт</string>
+    <string name="stepOneText">Шаг 1: Открыть авито и скопировать желаемый адрес</string>
+    <string name="openSite">Открыть Авито</string>
+    <string name="stepTwoText">Шаг 2: Выбрать рубрику и критерии поиска (город и т.д.)</string>
+    <string name="stepThreeText">Шаг 3: Скопировать адрес выбранного запроса (пример: https://www.avito.ru/moskva/vakansii/tag/kladovschik)</string>
+    <string name="stepFourText">Шаг 4: Вставить ссылку и нажать на \"подписаться\"</string>
 </resources>

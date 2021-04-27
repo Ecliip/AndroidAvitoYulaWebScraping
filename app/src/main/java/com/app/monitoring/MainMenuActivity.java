@@ -1,6 +1,7 @@
-package com.app.minitoring;
+package com.app.monitoring;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -23,5 +24,10 @@ public class MainMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AvitoSearchActivity.class);
         intent.putExtra(AvitoSearchActivity.EXTRA_TARGET_URL, targetUrl);
         startActivity(intent);
+    }
+
+    public void onClickOpenSite(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.avito.ru"));
+        startActivity(browserIntent);
     }
 }

@@ -1,4 +1,4 @@
-package com.app.minitoring;
+package com.app.monitoring;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
