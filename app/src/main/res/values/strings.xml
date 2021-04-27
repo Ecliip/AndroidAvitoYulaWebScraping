@@ -6,7 +6,8 @@
     <string name="search_example">https://www.avito.ru/moskva/vakansii/tag/barmen</string>
 
     <!--    SEARCh ACTIVITY-->
-    <string name="searching_menu">Выбранный URL для отслеживания</string>
+    <string name="headingSearchingOnStart">Нажми СТОП чтобы закончить отслеживание</string>
+    <string name="headingSearchingOnStop">Нажми СТАРТ чтобы начать отслеживание</string>
     <string name="stobBtn">Стоп</string>
     <string name="startBtn">Старт</string>
     <string name="stepOneText">Шаг 1: Открыть авито и скопировать желаемый адрес</string>

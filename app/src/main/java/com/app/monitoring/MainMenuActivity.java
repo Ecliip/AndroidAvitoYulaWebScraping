@@ -21,8 +21,8 @@ public class MainMenuActivity extends AppCompatActivity {
     public void onClickSearch(View view) {
         EditText editViewUrl  = findViewById(R.id.editViewUrl);
         String targetUrl = editViewUrl.getText().toString();
-        Intent intent = new Intent(this, AvitoSearchActivity.class);
-        intent.putExtra(AvitoSearchActivity.EXTRA_TARGET_URL, targetUrl);
+        Intent intent = new Intent(this, SiteSearchActivity.class);
+        intent.putExtra(SiteSearchActivity.EXTRA_TARGET_URL, targetUrl);
         startActivity(intent);
     }
 

@@ -10,7 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AvitoSearchActivity extends AppCompatActivity {
+import com.app.monitoring.databinding.ActivitySiteSearchBinding;
+
+public class SiteSearchActivity extends AppCompatActivity {
+    private ActivitySiteSearchBinding binding;
+
     public static String EXTRA_TARGET_URL = "targetUrl";
     private AdViewModel mAdViewModel;
     private ScrapedAdViewModel mScrapedAdViewModel;
@@ -19,7 +23,9 @@ public class AvitoSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_avito_search);
+        binding = ActivitySiteSearchBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final AdListAdapter adapter = new AdListAdapter(new AdListAdapter.AdDiff());
@@ -36,15 +42,24 @@ public class AvitoSearchActivity extends AppCompatActivity {
     }
 
 
-    public void onClickScan(View view) {
-        startScanning();
+    public void onClickStart(View view) {
+//        startScanning();
+        binding.startBtn.setVisibility(View.GONE);
+        binding.headingText.setText(R.string.headingSearchingOnStart);
+        binding.stopBtn.setVisibility(View.VISIBLE);
+    }
+
+    public void onClickStop(View view) {
+        binding.stopBtn.setVisibility(View.GONE);
+        binding.headingText.setText(R.string.headingSearchingOnStop);
+        binding.startBtn.setVisibility(View.VISIBLE);
     }
 
     public void startScanning() {
         mAdViewModel.removeAllAds();
         mScrapedAdViewModel.removeAllAds();
 
-        final TextView targetUrlView = findViewById(R.id.current_url);
+        final TextView targetUrlView = findViewById(R.id.headingText);
         Intent intent = getIntent();
         String targetUlrText = intent.getStringExtra(EXTRA_TARGET_URL);
         targetUrlView.setText(targetUlrText);

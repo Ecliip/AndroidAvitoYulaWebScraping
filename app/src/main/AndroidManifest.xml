@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Monitoring">
-        <activity android:name="com.app.monitoring.AvitoSearchActivity" />
+        <activity android:name="com.app.monitoring.SiteSearchActivity" />
         <activity android:name="com.app.monitoring.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
