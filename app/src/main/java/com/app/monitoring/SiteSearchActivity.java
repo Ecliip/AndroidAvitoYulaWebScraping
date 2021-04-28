@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.monitoring.databinding.ActivitySiteSearchBinding;
 
 public class SiteSearchActivity extends AppCompatActivity {
+    public static final String START_BTN_VISIBILITY = "startBtnVisibility";
+    public static final String STOP_BTN_VISIBILITY = "stopBtnVisibility";
+    public static final String HEADING_TEXT = "headingText";
     private ActivitySiteSearchBinding binding;
 
     public static String EXTRA_TARGET_URL = "targetUrl";
@@ -26,6 +30,12 @@ public class SiteSearchActivity extends AppCompatActivity {
         binding = ActivitySiteSearchBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        if (savedInstanceState != null) {
+            binding.startBtn.setVisibility(savedInstanceState.getInt(START_BTN_VISIBILITY));
+            binding.stopBtn.setVisibility(savedInstanceState.getInt(STOP_BTN_VISIBILITY));
+            binding.headingText.setText(savedInstanceState.getString(HEADING_TEXT));
+        }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final AdListAdapter adapter = new AdListAdapter(new AdListAdapter.AdDiff());
@@ -41,9 +51,17 @@ public class SiteSearchActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(START_BTN_VISIBILITY, binding.startBtn.getVisibility());
+        outState.putInt(STOP_BTN_VISIBILITY, binding.stopBtn.getVisibility());
+        outState.putString(HEADING_TEXT, binding.headingText.getText().toString());
+    }
+
 
     public void onClickStart(View view) {
-//        startScanning();
+        startScanning();
         binding.startBtn.setVisibility(View.GONE);
         binding.headingText.setText(R.string.headingSearchingOnStart);
         binding.stopBtn.setVisibility(View.VISIBLE);
@@ -65,8 +83,8 @@ public class SiteSearchActivity extends AppCompatActivity {
         targetUrlView.setText(targetUlrText);
 
         mAdViewModel.callWorkManager(targetUlrText);
-        AdScraper scraper = new AdScraper(getApplicationContext());
-        scraper.scan(targetUlrText);
+        AdScraper scraper = new AdScraper(getApplicationContext(), targetUlrText);
+        scraper.startScraper(targetUlrText);
     }
 
 }
