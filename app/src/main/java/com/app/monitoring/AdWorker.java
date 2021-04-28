@@ -40,16 +40,20 @@ public class AdWorker extends Worker {
 //                    .timeout(10000)
                     .get();
             Elements ads = doc.select(".iva-item-root-G3n7v");
+            System.out.println("IN WORKER");
             for (Element ad : ads) {
+                System.out.println("IN WORKER");
                 Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
                 String headingHref = heading.selectFirst("a").attr("href");
 
                 String adName = ad.select("h3").text();
                 String id = ad.attr("id");
                 headingHref = avitoBaseUrl.concat(headingHref);
-                System.out.println(String.format("%s: %s - %s", CLASS_TAG, adName, id));
+                System.out.println(String.format("%s: %s - %s!!!", CLASS_TAG, adName, id));
                 Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
                 repo.insertAd(adRecord);
+
+//                System.out.println();
             }
 
             return Result.success();

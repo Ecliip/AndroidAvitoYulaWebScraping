@@ -83,8 +83,8 @@ public class SiteSearchActivity extends AppCompatActivity {
         targetUrlView.setText(targetUlrText);
 
         mAdViewModel.callWorkManager(targetUlrText);
-        AdScraper scraper = new AdScraper(getApplicationContext(), targetUlrText);
-        scraper.startScraper(targetUlrText);
+        AdScraper scraper = new AdScraper(getApplicationContext());
+        scraper.scan(targetUlrText);
     }
 
 }

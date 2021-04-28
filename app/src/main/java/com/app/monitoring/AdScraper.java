@@ -20,17 +20,17 @@ public class AdScraper {
     private final ScrapedAdDao scrapedAdDao;
     private final AdDAO adDao;
     private final String TAG = "AdScraper.class";
-    private final Handler handler = new Handler(Looper.myLooper());
-    private Runnable runnable;
 
-
-    public AdScraper(Context applicationContext, String targetUrl) {
+    public AdScraper(Context applicationContext) {
         Constants constants = new Constants();
         avitoBaseUrl = constants.getAVITO_BASE_URL();
         scrapedAdDao = AppDatabase.getDatabase(applicationContext).scrapedAdDao();
         adDao = AppDatabase.getDatabase(applicationContext).adDAO();
+    }
 
-        runnable = new Runnable() {
+    public void scan(String targetUrl) {
+        final Handler handler = new Handler(Looper.myLooper());
+        handler.postDelayed (new Runnable() {
             @Override
             public void run() {
                 // TEST SCAN
@@ -59,29 +59,17 @@ public class AdScraper {
                                     Log.i("NEW ADD", String.format("%s: %s - %s", TAG, adName, id));
                                     scrapedAdDao.insertAd(scrapedAd);
                                 }
-
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        handler.postDelayed(this, 30000);
                     }
                 }).start();
 
                 // END TEST SCAN
-//                handler.postDelayed(this, 30000);
+                handler.postDelayed(this, 30000);
             }
-        };
-    }
-
-    public void stopScraper() {
-        handler.removeCallbacks(runnable);
-    }
-
-    public void startScraper(String targetUrl) {
-//       final Handler handler = new Handler(Looper.myLooper());
-
-        handler.postDelayed (runnable,30000);
+        },30000);
     }
     public AdRepository getRepository() {
         return repository;
