@@ -59,7 +59,6 @@ public class SiteSearchActivity extends AppCompatActivity {
         outState.putString(HEADING_TEXT, binding.headingText.getText().toString());
     }
 
-
     public void onClickStart(View view) {
         startScanning();
         binding.startBtn.setVisibility(View.GONE);
@@ -87,4 +86,10 @@ public class SiteSearchActivity extends AppCompatActivity {
         scraper.scan(targetUlrText);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        mAdViewModel.removeAllAds();
+//        mScrapedAdViewModel.removeAllAds();
+    }
 }

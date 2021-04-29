@@ -1,11 +1,13 @@
 package com.app.monitoring;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -33,12 +35,19 @@ public class AdWorker extends Worker {
         System.out.println(targetUrl);
 
         try {
-
-            Document doc = Jsoup.connect(targetUrl)
+            // Connect
+            Connection con = Jsoup.connect(targetUrl)
                     .userAgent("Chrome/90.0.4430.85")
-                    .referrer("http://www.google.com")
+                    .referrer("http://www.google.com");
 //                    .timeout(10000)
-                    .get();
+            // get response
+            Connection.Response res = con.execute();
+            Document doc = null;
+
+            if (res.statusCode() == 200) {
+                doc = con.get();
+
+
             Elements ads = doc.select(".iva-item-root-G3n7v");
             System.out.println("IN WORKER");
             for (Element ad : ads) {
@@ -52,15 +61,16 @@ public class AdWorker extends Worker {
                 System.out.println(String.format("%s: %s - %s!!!", CLASS_TAG, adName, id));
                 Ad adRecord = new Ad(id, adName, headingHref, targetUrl);
                 repo.insertAd(adRecord);
-
 //                System.out.println();
             }
-
             return Result.success();
+            } else {
+                Log.i(TAG, "Connection failed");
+                return Result.failure();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return Result.failure();
         }
-
     }
 }

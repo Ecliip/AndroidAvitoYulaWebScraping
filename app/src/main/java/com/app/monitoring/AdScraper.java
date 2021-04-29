@@ -29,6 +29,7 @@ public class AdScraper {
     }
 
     public void scan(String targetUrl) {
+
         final Handler handler = new Handler(Looper.myLooper());
         handler.postDelayed (new Runnable() {
             @Override
@@ -39,8 +40,8 @@ public class AdScraper {
                     public void run() {
                         try {
                             Document doc = Jsoup.connect(targetUrl)
-                                    .userAgent("Chrome/90.0.4430.85")
-                                    .referrer("http://www.google.com")
+//                                    .userAgent("Chrome/90.0.4430.85")
+//                                    .referrer("http://www.google.com")
 //                                   .timeout(10000)
                                     .get();
                             Elements ads = doc.select(".iva-item-root-G3n7v");
