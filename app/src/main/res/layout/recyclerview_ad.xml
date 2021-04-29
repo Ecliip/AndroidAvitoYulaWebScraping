@@ -1,13 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@color/myLightDarkBlue"
+    android:gravity="center_vertical"
+    android:paddingLeft="3dp"
+    android:paddingTop="2dp"
+    android:paddingRight="2dp"
+    android:paddingBottom="2dp"
+    app:flow_verticalAlign="center">
 
     <TextView
         android:id="@+id/adView"
-        style="@style/word_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_light" />
+        android:layout_gravity="center_vertical"
+        android:layout_weight="6"
+        android:shadowColor="#FFFFFF"
+        android:text="Sample text goes hereSample text goes hereSample text goes here"
+        android:textColor="@color/white" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#00FFFFFF"
+        android:baselineAlignBottom="true"
+        android:textAlignment="center"
+        android:tint="@color/design_default_color_error"
+        app:srcCompat="@drawable/ic_baseline_delete_24" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#00FFFFFF"
+        android:tint="#4CAF50"
+        app:srcCompat="@drawable/ic_baseline_save_24" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#00FFFFFF"
+        android:tint="#85C9FF"
+        app:srcCompat="@drawable/ic_baseline_open_in_browser_24" />
+
 </LinearLayout>

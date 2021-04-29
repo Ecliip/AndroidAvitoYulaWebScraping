@@ -11,4 +11,6 @@
     <color name="colorPrimary">#FFEB3B</color>
     <color name="colorPrimaryDark">#FFC107</color>
     <color name="colorAccent">#9C27B0</color>
+    <color name="myDarkBlue">#182C45</color>
+    <color name="myLightDarkBlue">#25456E</color>
 </resources>
