@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.monitoring.databinding.ActivitySiteSearchBinding;
 
-public class SiteSearchActivity extends AppCompatActivity {
+public class SiteSearchActivity extends AppCompatActivity implements AdListAdapter.AdClickInterface {
     public static final String START_BTN_VISIBILITY = "startBtnVisibility";
     public static final String STOP_BTN_VISIBILITY = "stopBtnVisibility";
     public static final String HEADING_TEXT = "headingText";
@@ -23,6 +23,7 @@ public class SiteSearchActivity extends AppCompatActivity {
     private AdViewModel mAdViewModel;
     private ScrapedAdViewModel mScrapedAdViewModel;
     public static final int NEW_AD_ACTIVITY_REQUEST_CODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class SiteSearchActivity extends AppCompatActivity {
         }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final AdListAdapter adapter = new AdListAdapter(new AdListAdapter.AdDiff());
+        final AdListAdapter adapter = new AdListAdapter(new AdListAdapter.AdDiff(), (AdListAdapter.AdClickInterface) this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -91,5 +92,11 @@ public class SiteSearchActivity extends AppCompatActivity {
         super.onDestroy();
 //        mAdViewModel.removeAllAds();
 //        mScrapedAdViewModel.removeAllAds();
+    }
+
+
+    @Override
+    public void onDelete(int position, String adId) {
+        System.out.println(String.format("ad-id: %s", adId));
     }
 }

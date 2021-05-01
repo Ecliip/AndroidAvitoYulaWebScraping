@@ -46,10 +46,8 @@ public class AdWorker extends Worker {
 
             if (res.statusCode() == 200) {
                 doc = con.get();
-
-
-            Elements ads = doc.select(".iva-item-root-G3n7v");
-            System.out.println("IN WORKER");
+                Elements ads = doc.select(".iva-item-root-G3n7v");
+//            System.out.println("IN WORKER");
             for (Element ad : ads) {
                 System.out.println("IN WORKER");
                 Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
