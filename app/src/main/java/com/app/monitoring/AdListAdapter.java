@@ -17,6 +17,7 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
 
     static AdClickInterface adClickInterface;
     private static String adId;
+    private static String adName;
 
     public AdListAdapter(@NonNull DiffUtil.ItemCallback<ScrapedAd> diffCallback, AdClickInterface adClickInterface) {
         super(diffCallback);
@@ -33,7 +34,11 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
         ScrapedAd current = getItem(position);
         holder.bind(current.getName());
         adId = current.getAvito_ad_id();
+        adName = current.getName();
+        System.out.println("id."+adId);
     }
+
+
 
     static class AdDiff extends DiffUtil.ItemCallback<ScrapedAd> {
 
@@ -67,7 +72,7 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
 
                 @Override
                 public void onClick(View v) {
-                    adClickInterface.onDelete(getAdapterPosition(), adId);
+                    adClickInterface.onDelete(getAdapterPosition(), adId, adName);
                 }
             });
 
@@ -98,6 +103,6 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
     }
 
     interface AdClickInterface {
-        public void onDelete(int position, String adId);
+        public void onDelete(int position, String adId, String adName);
     }
 }

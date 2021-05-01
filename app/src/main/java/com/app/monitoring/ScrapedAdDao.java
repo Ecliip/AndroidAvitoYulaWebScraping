@@ -24,6 +24,9 @@ public interface ScrapedAdDao {
     @Query("SELECT * FROM ScrapedAd")
     public LiveData<List<ScrapedAd>> listAds();
 
+//    @Query("SELECT * FROM ScrapedAd")
+//    public List<ScrapedAd> ArayListScrapedAd();
+
     @Query("SELECT * FROM ScrapedAd WHERE avito_ad_id = :avitoAdId")
     public ScrapedAd checkIfExists(String avitoAdId);
 

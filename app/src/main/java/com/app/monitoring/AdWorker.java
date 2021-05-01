@@ -26,7 +26,6 @@ public class AdWorker extends Worker {
         Constants constants = new Constants();
         avitoBaseUrl = constants.getAVITO_BASE_URL();
     }
-
     @NonNull
     @Override
     public Result doWork() {
@@ -54,7 +53,6 @@ public class AdWorker extends Worker {
                 }
             }
         }).start();
-
         return Result.success();
     }
 }

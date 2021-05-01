@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.monitoring.databinding.ActivitySiteSearchBinding;
+
+import java.util.List;
 
 public class SiteSearchActivity extends AppCompatActivity implements AdListAdapter.AdClickInterface {
     public static final String START_BTN_VISIBILITY = "startBtnVisibility";
@@ -96,7 +99,14 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
 
 
     @Override
-    public void onDelete(int position, String adId) {
+    public void onDelete(int position, String adId, String adName) {
+//        List<ScrapedAd> scrapedAdList = mScrapedAdViewModel.getAllAdsList();
+        List<ScrapedAd> ads = mScrapedAdViewModel.getAllAds().getValue();
+        ScrapedAd ad = ads.get(position);
+        String name = ad.getName();
+
         System.out.println(String.format("ad-id: %s", adId));
+        Toast.makeText(this, name , Toast.LENGTH_SHORT).show();
+        mScrapedAdViewModel.deleteScrapedAd(ad);
     }
 }
