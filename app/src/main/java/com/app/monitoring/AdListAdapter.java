@@ -1,12 +1,15 @@
 package com.app.monitoring;
 
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 public class AdListAdapter extends ListAdapter<ScrapedAd, AdViewHolder> {
+
+
 
     public AdListAdapter(@NonNull DiffUtil.ItemCallback<ScrapedAd> diffCallback) {
         super(diffCallback);
