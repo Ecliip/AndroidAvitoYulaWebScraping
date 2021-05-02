@@ -1,6 +1,7 @@
 package com.app.monitoring;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -100,13 +101,28 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
 
     @Override
     public void onDelete(int position) {
-        List<ScrapedAd> ads = mScrapedAdViewModel.getAllAds().getValue();
-        ScrapedAd ad = ads.get(position);
-        String name = ad.getName();
-        Ad hiddenAd = new Ad(ad.getAvito_ad_id(), ad.getName(), ad.getUrl(), ad.getUser_query());
+        final List<ScrapedAd> ads = mScrapedAdViewModel.getAllAds().getValue();
+        final ScrapedAd ad = ads.get(position);
+        final String name = ad.getName();
+        final Ad hiddenAd = new Ad(ad.getAvito_ad_id(), ad.getName(), ad.getUrl(), ad.getUser_query());
         mAdViewModel.insert(hiddenAd);
         mScrapedAdViewModel.deleteScrapedAd(ad);
 
         Toast.makeText(this, R.string.textOnDelete, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSave(int position) {
+
+    }
+
+    @Override
+    public void onOpen(int position) {
+        final List<ScrapedAd> ads = mScrapedAdViewModel.getAllAds().getValue();
+        final ScrapedAd ad = ads.get(position);
+        final String url = ad.getUrl();
+        Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 }
