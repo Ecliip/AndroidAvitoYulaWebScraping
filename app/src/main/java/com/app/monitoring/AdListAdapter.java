@@ -70,10 +70,9 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
             openBtn = binding.openBtn;
 
             deleteBtn.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
-                    adClickInterface.onDelete(getAdapterPosition(), adId, adName);
+                    adClickInterface.onDelete(getAdapterPosition());
                 }
             });
 
@@ -104,6 +103,7 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
     }
 
     interface AdClickInterface {
-        public void onDelete(int position, String adId, String adName);
+        public void onDelete(int position);
+
     }
 }

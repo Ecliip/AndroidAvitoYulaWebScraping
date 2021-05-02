@@ -99,16 +99,14 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
 
 
     @Override
-    public void onDelete(int position, String adId, String adName) {
+    public void onDelete(int position) {
         List<ScrapedAd> ads = mScrapedAdViewModel.getAllAds().getValue();
         ScrapedAd ad = ads.get(position);
         String name = ad.getName();
-        Toast.makeText(this, "position> "+ position , Toast.LENGTH_SHORT).show();
-        System.out.println(String.format("ad-id: %s", adId));
         Ad hiddenAd = new Ad(ad.getAvito_ad_id(), ad.getName(), ad.getUrl(), ad.getUser_query());
         mAdViewModel.insert(hiddenAd);
         mScrapedAdViewModel.deleteScrapedAd(ad);
 
-        Toast.makeText(this, "isHidden> "+ ad.getHidden().toString() , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.textOnDelete, Toast.LENGTH_SHORT).show();
     }
 }
