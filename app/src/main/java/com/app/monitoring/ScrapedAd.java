@@ -1,6 +1,7 @@
 package com.app.monitoring;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -20,11 +21,15 @@ public class ScrapedAd {
     @NonNull
     private final String user_query;
 
-    public ScrapedAd(@NonNull String avito_ad_id, @NonNull String name, @NonNull String url, @NonNull String user_query) {
+    @ColumnInfo(defaultValue = "0")
+    final Boolean hidden;
+
+    public ScrapedAd(@NonNull String avito_ad_id, @NonNull String name, @NonNull String url, @NonNull String user_query, Boolean hidden) {
         this.avito_ad_id = avito_ad_id;
         this.name = name;
         this.url = url;
         this.user_query = user_query;
+        this.hidden = hidden;
     }
 
     public long getScrapedAdId() {
@@ -53,5 +58,10 @@ public class ScrapedAd {
 
     public void setScrapedAdId(long scrapedAdId) {
         this.scrapedAdId = scrapedAdId;
+    }
+
+    @NonNull
+    public Boolean getHidden() {
+        return hidden;
     }
 }

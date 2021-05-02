@@ -52,7 +52,7 @@ public class AdScraper {
                                 // avito ad id
                                 String id = ad.attr("id");
                                 headingHref = avitoBaseUrl.concat(headingHref);
-                                ScrapedAd scrapedAd = new ScrapedAd(id, adName, headingHref, targetUrl);
+                                ScrapedAd scrapedAd = new ScrapedAd(id, adName, headingHref, targetUrl, false);
                                 Ad adResult = adDao.checkIfExtists(scrapedAd.getAvito_ad_id());
                                 ScrapedAd scrapedAdResult = scrapedAdDao.checkIfExists(id);
 
