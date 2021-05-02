@@ -106,7 +106,11 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
         String name = ad.getName();
 
         System.out.println(String.format("ad-id: %s", adId));
-        Toast.makeText(this, name , Toast.LENGTH_SHORT).show();
-        mScrapedAdViewModel.deleteScrapedAd(ad);
+//        Toast.makeText(this, name , Toast.LENGTH_SHORT).show();
+
+        ad.setHidden(true);
+        mScrapedAdViewModel.updateScrapedAd(ad);
+
+        Toast.makeText(this, "isHidden> "+ ad.getHidden().toString() , Toast.LENGTH_SHORT).show();
     }
 }

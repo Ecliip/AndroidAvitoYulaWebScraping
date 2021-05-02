@@ -32,10 +32,12 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
     @Override
     public void onBindViewHolder(AdViewHolder holder, int position) {
         ScrapedAd current = getItem(position);
-        holder.bind(current.getName());
-        adId = current.getAvito_ad_id();
-        adName = current.getName();
-        System.out.println("id."+adId);
+        if (!current.getHidden()) {
+            holder.bind(current.getName());
+            adId = current.getAvito_ad_id();
+            adName = current.getName();
+            System.out.println("id."+adId);
+        }
     }
 
 

@@ -19,10 +19,10 @@ public class ScrapedAd {
     @NonNull
     private final String url;
     @NonNull
-    private final String user_query;
+    private String user_query;
 
     @ColumnInfo(defaultValue = "0")
-    final Boolean hidden;
+    private Boolean hidden;
 
     public ScrapedAd(@NonNull String avito_ad_id, @NonNull String name, @NonNull String url, @NonNull String user_query, Boolean hidden) {
         this.avito_ad_id = avito_ad_id;
@@ -63,5 +63,9 @@ public class ScrapedAd {
     @NonNull
     public Boolean getHidden() {
         return hidden;
+    }
+
+    public void setHidden(Boolean hidden) {
+        this.hidden = hidden;
     }
 }

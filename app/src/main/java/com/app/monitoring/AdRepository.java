@@ -74,4 +74,10 @@ class AdRepository {
             mScrapedAdDao.deleteAd(ad);
         });
     }
+
+    void updateScrapedAd(ScrapedAd ad) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mScrapedAdDao.updateAd(ad);
+        });
+    }
 }
