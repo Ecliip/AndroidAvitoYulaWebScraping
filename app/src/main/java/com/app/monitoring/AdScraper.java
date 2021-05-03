@@ -29,7 +29,6 @@ public class AdScraper {
     }
 
     public void scan(String targetUrl) {
-
         final Handler handler = new Handler(Looper.myLooper());
         handler.postDelayed (new Runnable() {
             @Override
