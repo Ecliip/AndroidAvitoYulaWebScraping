@@ -10,11 +10,17 @@ import java.util.List;
 public class ScrapedAdViewModel extends AndroidViewModel {
     private AdRepository mRepository;
     private final LiveData<List<ScrapedAd>> mAllScrapedAds;
+    private AdScraper mScraper;
 
     public ScrapedAdViewModel (Application application) {
         super(application);
         mRepository = new AdRepository(application);
         mAllScrapedAds = mRepository.getAllScrapedAds();
+        mScraper = new AdScraper(getApplication().getApplicationContext());
+    }
+
+    public AdScraper getmScraper() {
+        return mScraper;
     }
 
     LiveData<List<ScrapedAd>> getAllAds() { return mAllScrapedAds; }

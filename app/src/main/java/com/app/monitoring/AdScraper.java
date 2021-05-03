@@ -20,6 +20,8 @@ public class AdScraper {
     private final ScrapedAdDao scrapedAdDao;
     private final AdDAO adDao;
     private final String TAG = "AdScraper.class";
+    private Handler handler;
+    private Runnable runnable;
 
     public AdScraper(Context applicationContext) {
         Constants constants = new Constants();
@@ -30,8 +32,8 @@ public class AdScraper {
 
     public void scan(String targetUrl) {
 
-        final Handler handler = new Handler(Looper.myLooper());
-        handler.postDelayed (new Runnable() {
+        handler = new Handler(Looper.myLooper());
+        runnable = new Runnable() {
             @Override
             public void run() {
                 // TEST SCAN
@@ -70,7 +72,8 @@ public class AdScraper {
                 // END TEST SCAN
                 handler.postDelayed(this, 30000);
             }
-        },30000);
+        };
+        handler.postDelayed (runnable,30000);
     }
     public AdRepository getRepository() {
         return repository;
@@ -78,5 +81,10 @@ public class AdScraper {
 
     public void setRepository(AdRepository repository) {
         this.repository = repository;
+    }
+
+    public void stopScanning() {
+        handler.removeCallbacks(runnable);
+        Log.i(TAG, "scanner stoped");
     }
 }

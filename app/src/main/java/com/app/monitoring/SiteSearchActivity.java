@@ -72,6 +72,7 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
     }
 
     public void onClickStop(View view) {
+        stopScanning();
         binding.stopBtn.setVisibility(View.GONE);
         binding.headingText.setText(R.string.headingSearchingOnStop);
         binding.startBtn.setVisibility(View.VISIBLE);
@@ -87,8 +88,11 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
         targetUrlView.setText(targetUlrText);
 
         mAdViewModel.callWorkManager(targetUlrText);
-        AdScraper scraper = new AdScraper(getApplicationContext());
-        scraper.scan(targetUlrText);
+        mScrapedAdViewModel.getmScraper().scan(targetUlrText);
+    }
+
+    public void stopScanning() {
+        mScrapedAdViewModel.getmScraper().stopScanning();
     }
 
     @Override
@@ -97,7 +101,6 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
 //        mAdViewModel.removeAllAds();
 //        mScrapedAdViewModel.removeAllAds();
     }
-
 
     @Override
     public void onDelete(int position) {
@@ -125,4 +128,6 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
     }
+
+
 }
