@@ -79,14 +79,14 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adClickInterface.onSave(getAdapterPosition());
+                    System.out.println("save Btn clicked");
                 }
             });
 
             openBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adClickInterface.onOpen(getAdapterPosition());
+                    System.out.println("Open btn clicked");
                 }
             });
         }
@@ -104,8 +104,6 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
 
     interface AdClickInterface {
         public void onDelete(int position);
-        public void onSave(int position);
-        public void onOpen(int position);
 
     }
 }
