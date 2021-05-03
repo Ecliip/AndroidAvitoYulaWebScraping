@@ -28,11 +28,11 @@ public abstract class AppDatabase extends RoomDatabase {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL(
                     "CREATE TABLE if not exists ScrapedAd ( " +
-                    "scrapedAdId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                    "avito_ad_id TEXT NOT NULL," +
-                    "name TEXT not NULL," +
-                    "url TEXT not NULL," +
-                    "user_query TEXT not NULL," +
+                            "scrapedAdId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                            "avito_ad_id TEXT NOT NULL," +
+                            "name TEXT not NULL," +
+                            "url TEXT not NULL," +
+                            "user_query TEXT not NULL," +
                             "UNIQUE(name, url, avito_ad_id));"
             );
             database.execSQL(

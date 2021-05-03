@@ -47,8 +47,8 @@ public class AdWorker extends Worker {
                         Ad scrapedAd = new Ad(id, adName, headingHref, targetUrl);
                         Log.i("NEW ADD", String.format("%s: %s - %s", TAG, adName, id));
                         repo.insertAd(scrapedAd);
-                        }
-                    } catch (IOException ioException) {
+                    }
+                } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
             }

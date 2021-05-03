@@ -32,10 +32,10 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
     @Override
     public void onBindViewHolder(AdViewHolder holder, int position) {
         ScrapedAd current = getItem(position);
-            holder.bind(current.getName());
-            adId = current.getAvito_ad_id();
-            adName = current.getName();
-            System.out.println("id."+adId);
+        holder.bind(current.getName());
+        adId = current.getAvito_ad_id();
+        adName = current.getName();
+        System.out.println("id."+adId);
     }
 
 
@@ -79,14 +79,14 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("save Btn clicked");
+                    adClickInterface.onSave(getAdapterPosition());
                 }
             });
 
             openBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("Open btn clicked");
+                    adClickInterface.onOpen(getAdapterPosition());
                 }
             });
         }
@@ -104,6 +104,8 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
 
     interface AdClickInterface {
         public void onDelete(int position);
+        public void onSave(int position);
+        public void onOpen(int position);
 
     }
 }

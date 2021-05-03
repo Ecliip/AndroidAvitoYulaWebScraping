@@ -11,7 +11,7 @@ class AdRepository {
     private AdDAO mAdDAO;
     private LiveData<List<Ad>> mAllAds;
     private LiveData<List<ScrapedAd>> mAllScrapedAds;
-//    private List<ScrapedAd> mAllScrapedAdsList;
+    //    private List<ScrapedAd> mAllScrapedAdsList;
     private ScrapedAdDao mScrapedAdDao;
 
     // Note that in order to unit test the AdRepository, you have to remove the Application
@@ -38,7 +38,7 @@ class AdRepository {
         return mAllScrapedAds;
     }
 
-//    List<ScrapedAd> getAllScrapedAdsList() {
+    //    List<ScrapedAd> getAllScrapedAdsList() {
 //        return mAllScrapedAdsList;
 //    }
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
