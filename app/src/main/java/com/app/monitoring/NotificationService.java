@@ -57,6 +57,8 @@ public class NotificationService extends IntentService {
         notification.setContentIntent(actionPendingIntent);
 
         notificationManager.notify(1, notification.build());
+
+        System.out.println("Notification Service");
     }
 
     /**
