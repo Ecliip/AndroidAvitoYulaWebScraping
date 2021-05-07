@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Monitoring">
         <service
-            android:name=".ScanningService"
+            android:name=".NotificationService"
             android:exported="false"></service>
+        <service
+            android:name=".ScanningService"
+            android:exported="false" />
 
         <activity android:name=".SiteSearchActivity" />
         <activity android:name=".MainMenuActivity">

@@ -14,6 +14,4 @@ public class ScanningService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
     }
-
-
 }
