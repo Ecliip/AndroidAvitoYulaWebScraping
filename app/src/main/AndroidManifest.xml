@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Monitoring">
         <service
-            android:name=".NotificationService"
+            android:name=".ObserverService"
             android:exported="false"></service>
+        <service
+            android:name=".NotificationService"
+            android:exported="false" />
         <service
             android:name=".ScanningService"
             android:exported="false" />

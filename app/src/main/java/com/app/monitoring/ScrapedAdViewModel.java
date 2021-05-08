@@ -23,7 +23,9 @@ public class ScrapedAdViewModel extends AndroidViewModel {
         return mScraper;
     }
 
-    LiveData<List<ScrapedAd>> getAllAds() { return mAllScrapedAds; }
+    LiveData<List<ScrapedAd>> getAllAds() {
+        return mAllScrapedAds;
+    }
 
     public void insert(ScrapedAd ad) { mRepository.insert(ad); }
 

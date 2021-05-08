@@ -18,6 +18,8 @@ import com.app.monitoring.databinding.ActivitySiteSearchBinding;
 import java.util.List;
 
 public class SiteSearchActivity extends AppCompatActivity implements AdListAdapter.AdClickInterface {
+    private static final String TAG = "SiteSearchActivity";
+
     public static final String START_BTN_VISIBILITY = "startBtnVisibility";
     public static final String STOP_BTN_VISIBILITY = "stopBtnVisibility";
     public static final String HEADING_TEXT = "headingText";
@@ -27,6 +29,7 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
     private AdViewModel mAdViewModel;
     private ScrapedAdViewModel mScrapedAdViewModel;
     public static final int NEW_AD_ACTIVITY_REQUEST_CODE = 1;
+    private Intent observerIntent;
 
 
     @Override
@@ -50,9 +53,13 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
         mAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(AdViewModel.class);
         mScrapedAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(ScrapedAdViewModel.class);
 
-        mScrapedAdViewModel.getAllAds().observe(this, words -> {
+        mScrapedAdViewModel.getAllAds().observe(this, adsHere -> {
             // Update the cached copy of the words in the adapter.
-            adapter.submitList(words);
+            adapter.submitList(adsHere);
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                Log.i(TAG, String.valueOf(adsHere.stream().count()));
+//            }
         });
     }
 
@@ -89,10 +96,14 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
 
         mAdViewModel.callWorkManager(targetUlrText);
         mScrapedAdViewModel.getmScraper().scan(targetUlrText);
+
+        observerIntent = new Intent(this, ObserverService.class);
+        startService(observerIntent);
     }
 
     public void stopScanning() {
         mScrapedAdViewModel.getmScraper().stopScanning();
+        stopService(observerIntent);
     }
 
     @Override

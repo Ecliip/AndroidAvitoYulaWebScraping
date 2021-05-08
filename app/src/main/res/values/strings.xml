@@ -15,7 +15,7 @@
     <string name="stepTwoText">Шаг 2: Выбрать рубрику и критерии поиска (город и т.д.)</string>
     <string name="stepThreeText">Шаг 3: Скопировать адрес выбранного запроса (пример: https://www.avito.ru/moskva/vakansii/tag/kladovschik)</string>
     <string name="stepFourText">Шаг 4: Вставить ссылку и нажать на \"подписаться\"</string>
-    <string name="textOnDelete">The add was deleted</string>
+    <string name="textOnDelete">The ad was deleted</string>
     <string name="channel_name">Chanel One</string>
     <string name="channel_description">Channel One Description</string>
 </resources>
