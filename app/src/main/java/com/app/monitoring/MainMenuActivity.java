@@ -15,20 +15,16 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.work.PeriodicWorkRequest;
 
 public class MainMenuActivity extends AppCompatActivity {
     private static final String TAG = "MainMenuActivity";
     private static final String CHANNEL_ID = "1";
-    PeriodicWorkRequest periodicWorkRequest;
-    private NotificationManagerCompat notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal_menu);
 
-        notificationManager = NotificationManagerCompat.from(this);
         createNotificationChannel();
     }
 
@@ -46,11 +42,6 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void onNotify(View view) {
-//       Intent intent = new Intent(this, NotificationService.class);
-//       startService(intent);
-
-        int requestID = (int) System.currentTimeMillis();
-
         String name = "Notificatio name";
         String description = "Notification Description";
 
@@ -72,12 +63,6 @@ public class MainMenuActivity extends AppCompatActivity {
                         .bigText("Much longer text that cannot fit one line..."))
                 .setAutoCancel(true);
 
-//        Intent actionIntent = new Intent(this, MainMenuActivity.class);
-//        PendingIntent actionPendingIntent = PendingIntent.getActivity(
-//                this,
-//                requestID,
-//                actionIntent,
-//                PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
