@@ -32,6 +32,13 @@ public class AdSettings extends AppCompatActivity {
     public void onClickStart(View view) {
         Intent intent = new Intent(this, MainMenuActivity.class);
         startActivity(intent);
+
+        String subscriptionName = binding.editTextUrlName.getText().toString().trim();
+        String subscriptionUrl = binding.editTextUrl.getText().toString().trim();
+
+        AdSubscription mySubscription = new AdSubscription(subscriptionName, subscriptionUrl);
+
+        adSubscriptionViewModel.insert(mySubscription);
     }
 
 
