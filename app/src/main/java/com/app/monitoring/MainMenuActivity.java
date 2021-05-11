@@ -10,29 +10,37 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.app.monitoring.databinding.ActivityPrincipalMenuBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class MainMenuActivity extends AppCompatActivity {
     private static final String TAG = "MainMenuActivity";
     private static final String CHANNEL_ID = "1";
+    private ActivityPrincipalMenuBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_principal_menu);
+        binding = ActivityPrincipalMenuBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
-        createNotificationChannel();
+        FloatingActionButton fab = binding.addFab;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainMenuActivity.this, "Test", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void onClickSearch(View view) {
-//        EditText editViewUrl  = findViewById(R.id.editViewUrl);
-//        String targetUrl = editViewUrl.getText().toString();
-//        Intent intent = new Intent(this, SiteSearchActivity.class);
-//        intent.putExtra(SiteSearchActivity.EXTRA_TARGET_URL, targetUrl);
-//        startActivity(intent);
     }
 
     public void onClickOpenSite(View view) {
