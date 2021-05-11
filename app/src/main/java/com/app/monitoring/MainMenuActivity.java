@@ -36,6 +36,8 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainMenuActivity.this, "Test", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainMenuActivity.this, AdSettings.class);
+                startActivity(intent);
             }
         });
     }
