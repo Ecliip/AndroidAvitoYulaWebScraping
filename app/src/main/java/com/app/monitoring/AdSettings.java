@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.app.monitoring.databinding.ActivityAdSettingsBinding;
 
 public class AdSettings extends AppCompatActivity {
     private ActivityAdSettingsBinding binding;
+    private AdSubscriptionViewModel adSubscriptionViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,8 @@ public class AdSettings extends AppCompatActivity {
         binding = ActivityAdSettingsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        adSubscriptionViewModel = new ViewModelProvider(this).get(AdSubscriptionViewModel.class);
     }
 
     public void onClickOpenSite(View view) {
