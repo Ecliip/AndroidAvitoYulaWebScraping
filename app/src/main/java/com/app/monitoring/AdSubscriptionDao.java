@@ -13,13 +13,13 @@ import java.util.List;
 @Dao
 public interface AdSubscriptionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(AdSubscription adSubscription);
+    void insertAdSubscription(AdSubscription adSubscription);
 
     @Update
-    void update(AdSubscription adSubscription);
+    void updateAdSubscription(AdSubscription adSubscription);
 
     @Delete
-    void deleteAd(AdSubscription adSubscription);
+    void deleteAdSubscription(AdSubscription adSubscription);
 
     @Query("SELECT * FROM AdSubscription")
     public LiveData<List<AdSubscription>> listAdSubscriptions();
@@ -28,5 +28,5 @@ public interface AdSubscriptionDao {
     void deleteAllAdSubscriptions();
 
     @Query("SELECT * FROM AdSubscription WHERE name = :name")
-    public AdSubscription getIfExists(String name);
+    public AdSubscription getAdSubscriptionByName(String name);
 }
