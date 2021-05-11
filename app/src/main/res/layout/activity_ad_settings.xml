@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextUrlName" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnOpenSite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -47,11 +47,12 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextUrl" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/fabStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:clickable="true"
+        android:onClick="onClickStart"
         app:backgroundTint="@color/lightGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

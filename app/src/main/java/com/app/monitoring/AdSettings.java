@@ -26,7 +26,8 @@ public class AdSettings extends AppCompatActivity {
     }
 
     public void onClickStart(View view) {
-
+        Intent intent = new Intent(this, MainMenuActivity.class);
+        startActivity(intent);
     }
 
 
