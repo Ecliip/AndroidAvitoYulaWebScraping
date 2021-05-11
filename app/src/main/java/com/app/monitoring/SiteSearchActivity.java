@@ -50,8 +50,12 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(AdViewModel.class);
-        mScrapedAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(ScrapedAdViewModel.class);
+// this for appCompatVersion 1.2.0
+//        mAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(AdViewModel.class);
+//        mScrapedAdViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(ScrapedAdViewModel.class);
+
+        mAdViewModel = new ViewModelProvider(this).get(AdViewModel.class);
+        mScrapedAdViewModel = new ViewModelProvider(this).get(ScrapedAdViewModel.class);
 
         mScrapedAdViewModel.getAllAds().observe(this, adsHere -> {
             // Update the cached copy of the words in the adapter.

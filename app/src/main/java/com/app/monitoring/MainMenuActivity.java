@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -35,7 +34,6 @@ public class MainMenuActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainMenuActivity.this, "Test", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainMenuActivity.this, AdSettings.class);
                 startActivity(intent);
             }
