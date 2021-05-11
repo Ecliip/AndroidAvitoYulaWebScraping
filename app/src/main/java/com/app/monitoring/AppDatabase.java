@@ -12,11 +12,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Ad.class, ScrapedAd.class}, version = 3, exportSchema = false)
+@Database(entities = {Ad.class, ScrapedAd.class, AdSubscription.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AdDAO adDAO();
     public abstract ScrapedAdDao scrapedAdDao();
+    public abstract AdSubscriptionDao adSubscriptionDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -49,6 +50,17 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE if not exists AdSubscription ( " +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    "name TEXT not NULL," +
+                    "url TEXT not NULL," +
+                    "UNIQUE(name, url));");
+        }
+    };
+
     static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
@@ -57,6 +69,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             AppDatabase.class, "ad_database")
                             .addMigrations(MIGRATION_1_2)
                             .addMigrations(MIGRATION_2_3)
+                            .addMigrations(MIGRATION_3_4)
                             .build();
                 }
             }

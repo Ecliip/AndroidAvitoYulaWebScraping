@@ -9,10 +9,12 @@ import java.util.List;
 class AdRepository {
 
     private AdDAO mAdDAO;
+    private ScrapedAdDao mScrapedAdDao;
+    private AdSubscriptionDao mAdSubcriptionDao;
     private LiveData<List<Ad>> mAllAds;
     private LiveData<List<ScrapedAd>> mAllScrapedAds;
+    private LiveData<List<AdSubscription>> mAllAdSubscriptions;
     //    private List<ScrapedAd> mAllScrapedAdsList;
-    private ScrapedAdDao mScrapedAdDao;
 
     // Note that in order to unit test the AdRepository, you have to remove the Application
     // dependency. This adds complexity and much more code, and this sample is not about testing.
@@ -22,9 +24,11 @@ class AdRepository {
 
         mAdDAO = db.adDAO();
         mScrapedAdDao = db.scrapedAdDao();
+        mAdSubcriptionDao = db.adSubscriptionDao();
 
         mAllAds = mAdDAO.listAds();
         mAllScrapedAds = mScrapedAdDao.listAds();
+        mAllAdSubscriptions = mAdSubcriptionDao.listAdSubscriptions();
 //        mAllScrapedAdsList = mScrapedAdDao.ArayListScrapedAd();
     }
 
@@ -36,6 +40,10 @@ class AdRepository {
 
     LiveData<List<ScrapedAd>> getAllScrapedAds() {
         return mAllScrapedAds;
+    }
+
+    LiveData<List<AdSubscription>> getAllAdSubscriptions() {
+        return mAllAdSubscriptions;
     }
 
     //    List<ScrapedAd> getAllScrapedAdsList() {
@@ -78,6 +86,37 @@ class AdRepository {
     void updateScrapedAd(ScrapedAd ad) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mScrapedAdDao.updateAd(ad);
+        });
+    }
+
+    // AdSubscriptions
+    void insertSubscription(AdSubscription ad) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mAdSubcriptionDao.insertAdSubscription(ad);
+        });
+    }
+
+    void updateSubscription(AdSubscription ad) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mAdSubcriptionDao.updateAdSubscription(ad);
+        });
+    }
+
+    void deleteAllSubscriptions() {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mAdSubcriptionDao.deleteAllAdSubscriptions();
+        });
+    }
+
+    void deleteSubscription(AdSubscription ad) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mAdSubcriptionDao.deleteAdSubscription(ad);
+        });
+    }
+
+    void getSubscription(String name) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mAdSubcriptionDao.getAdSubscriptionByName(name);
         });
     }
 }

@@ -26,4 +26,12 @@ public class AdSubscription {
     public String getUrl() {
         return url;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
