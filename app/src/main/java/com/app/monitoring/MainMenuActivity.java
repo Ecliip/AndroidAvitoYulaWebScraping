@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -29,11 +28,11 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void onClickSearch(View view) {
-        EditText editViewUrl  = findViewById(R.id.editViewUrl);
-        String targetUrl = editViewUrl.getText().toString();
-        Intent intent = new Intent(this, SiteSearchActivity.class);
-        intent.putExtra(SiteSearchActivity.EXTRA_TARGET_URL, targetUrl);
-        startActivity(intent);
+//        EditText editViewUrl  = findViewById(R.id.editViewUrl);
+//        String targetUrl = editViewUrl.getText().toString();
+//        Intent intent = new Intent(this, SiteSearchActivity.class);
+//        intent.putExtra(SiteSearchActivity.EXTRA_TARGET_URL, targetUrl);
+//        startActivity(intent);
     }
 
     public void onClickOpenSite(View view) {

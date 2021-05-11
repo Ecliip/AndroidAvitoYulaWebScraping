@@ -11,9 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Monitoring">
+
         <service
             android:name=".ObserverService"
-            android:exported="false"></service>
+            android:exported="false" />
         <service
             android:name=".NotificationService"
             android:exported="false" />
