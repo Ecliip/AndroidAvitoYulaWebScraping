@@ -23,6 +23,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+// TODO: convert url and name to lower case and format it in output
+// TODO: on conflict ignore or through an error massage that this URL / Name exists
+// TODO: add  toolbar
+// TODO: add foreign key of Origin URL to all scanned ads
+// TODO: add switch button and on turn-off remove all the related data
+// TODO: think logic how to scan all the URL
+
 public class MainMenuActivity extends AppCompatActivity implements AdSubscriptionAdapter.AdSubscriptionClickInterface {
     private static final String TAG = "MainMenuActivity";
     private static final String CHANNEL_ID = "1";
