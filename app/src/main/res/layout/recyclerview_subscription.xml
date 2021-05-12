@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recyclerLayoutSubscription"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/recyclerLayoutSubscription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -45,7 +45,7 @@
             app:layout_constraintTop_toTopOf="@+id/deleteSubscriptionButton"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_baseline_settings_42"
-            app:tint="@color/lightGreen" />
+            app:tint="@color/darkGreen" />
 
         <ImageButton
             android:id="@+id/deleteSubscriptionButton"
@@ -55,7 +55,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_delete_42"
-            app:tint="@color/lightGreen" />
+            app:tint="@color/darkGreen" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
