@@ -34,25 +34,24 @@
 
     <ImageButton
         android:id="@+id/settingsSubscriptionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/deleteSubscriptionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/deleteSubscriptionButton"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_baseline_settings_42" />
+        app:srcCompat="@drawable/ic_baseline_settings_42"
+        app:tint="@color/lightGreen"
+        style="@style/buttonSubscriptionIconStyle"
+        />
 
     <ImageButton
         android:id="@+id/deleteSubscriptionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/settingsSubscriptionButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_delete_42" />
+        app:srcCompat="@drawable/ic_baseline_delete_42"
+        app:tint="@color/lightGreen"
+        style="@style/buttonSubscriptionIconStyle" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
