@@ -21,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.monitoring.databinding.ActivityPrincipalMenuBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainMenuActivity extends AppCompatActivity implements AdSubscriptionAdapter.AdSubscriptpionClickInterface {
+import java.util.List;
+
+public class MainMenuActivity extends AppCompatActivity implements AdSubscriptionAdapter.AdSubscriptionClickInterface {
     private static final String TAG = "MainMenuActivity";
     private static final String CHANNEL_ID = "1";
     private ActivityPrincipalMenuBinding binding;
@@ -45,7 +47,7 @@ public class MainMenuActivity extends AppCompatActivity implements AdSubscriptio
 
         RecyclerView recyclerView = binding.recyclerviewSubscriptions;
         final AdSubscriptionAdapter adapter = new AdSubscriptionAdapter(new AdSubscriptionAdapter.AdDiff(),
-                (AdSubscriptionAdapter.AdSubscriptpionClickInterface) this);
+                (AdSubscriptionAdapter.AdSubscriptionClickInterface) this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -110,16 +112,14 @@ public class MainMenuActivity extends AppCompatActivity implements AdSubscriptio
 
     @Override
     public void onDelete(int position) {
-
+//        Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+        final List<AdSubscription> subscriptions = mAdSubscriptionViewModel.getmAllAdSubscriptions().getValue();
+        final AdSubscription subscription = subscriptions.get(position);
+        mAdSubscriptionViewModel.deleteAdSubscription(subscription);
     }
 
     @Override
-    public void onSave(int position) {
-
-    }
-
-    @Override
-    public void onOpen(int position) {
+    public void onEdit(int position) {
 
     }
 }

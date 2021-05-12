@@ -106,6 +106,5 @@ public class AdListAdapter extends ListAdapter<ScrapedAd, AdListAdapter.AdViewHo
         public void onDelete(int position);
         public void onSave(int position);
         public void onOpen(int position);
-
     }
 }

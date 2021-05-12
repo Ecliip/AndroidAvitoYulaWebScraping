@@ -15,11 +15,11 @@ import com.app.monitoring.databinding.RecyclerviewSubscriptionBinding;
 
 public class AdSubscriptionAdapter extends ListAdapter<AdSubscription, AdSubscriptionAdapter.AdViewHolder> {
 
-    static AdSubscriptpionClickInterface adSubscriptionClickInterface;
+    static AdSubscriptionClickInterface adSubscriptionClickInterface;
     private static long subscriptionId;
     private static String subscriptionName;
 
-    public AdSubscriptionAdapter(@NonNull DiffUtil.ItemCallback<AdSubscription> diffCallback, AdSubscriptpionClickInterface adSubscriptioClickInterface) {
+    public AdSubscriptionAdapter(@NonNull DiffUtil.ItemCallback<AdSubscription> diffCallback, AdSubscriptionClickInterface adSubscriptionClickInterface) {
         super(diffCallback);
         this.adSubscriptionClickInterface = adSubscriptionClickInterface;
     }
@@ -78,7 +78,7 @@ public class AdSubscriptionAdapter extends ListAdapter<AdSubscription, AdSubscri
             settingsBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adSubscriptionClickInterface.onSave(getAdapterPosition());
+                    adSubscriptionClickInterface.onEdit(getAdapterPosition());
                 }
             });
         }
@@ -95,10 +95,8 @@ public class AdSubscriptionAdapter extends ListAdapter<AdSubscription, AdSubscri
         }
     }
 
-    interface AdSubscriptpionClickInterface {
+    interface AdSubscriptionClickInterface {
         public void onDelete(int position);
-        public void onSave(int position);
-        public void onOpen(int position);
-
+        public void onEdit(int position);
     }
 }
