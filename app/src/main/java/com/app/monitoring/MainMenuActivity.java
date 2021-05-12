@@ -112,7 +112,6 @@ public class MainMenuActivity extends AppCompatActivity implements AdSubscriptio
 
     @Override
     public void onDelete(int position) {
-//        Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
         final List<AdSubscription> subscriptions = mAdSubscriptionViewModel.getmAllAdSubscriptions().getValue();
         final AdSubscription subscription = subscriptions.get(position);
         mAdSubscriptionViewModel.deleteAdSubscription(subscription);

@@ -74,7 +74,6 @@ public class AdSubscriptionAdapter extends ListAdapter<AdSubscription, AdSubscri
                     adSubscriptionClickInterface.onDelete(getAdapterPosition());
                 }
             });
-// TODO: Debug onClick listener for buttons
             settingsBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
