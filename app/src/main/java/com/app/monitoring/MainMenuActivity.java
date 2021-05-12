@@ -14,14 +14,18 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.monitoring.databinding.ActivityPrincipalMenuBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainMenuActivity extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity implements AdSubscriptionAdapter.AdSubscriptpionClickInterface {
     private static final String TAG = "MainMenuActivity";
     private static final String CHANNEL_ID = "1";
     private ActivityPrincipalMenuBinding binding;
+    private AdSubscriptionViewModel mAdSubscriptionViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,15 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        RecyclerView recyclerView = binding.recyclerviewSubscriptions;
+        final AdSubscriptionAdapter adapter = new AdSubscriptionAdapter(new AdSubscriptionAdapter.AdDiff(),
+                (AdSubscriptionAdapter.AdSubscriptpionClickInterface) this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mAdSubscriptionViewModel = new ViewModelProvider(this).get(AdSubscriptionViewModel.class);
+        mAdSubscriptionViewModel.getmAllAdSubscriptions().observe(this, mySubscriptions -> adapter.submitList(mySubscriptions));
     }
 
     public void onClickSearch(View view) {
@@ -93,5 +106,20 @@ public class MainMenuActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    @Override
+    public void onDelete(int position) {
+
+    }
+
+    @Override
+    public void onSave(int position) {
+
+    }
+
+    @Override
+    public void onOpen(int position) {
+
     }
 }
