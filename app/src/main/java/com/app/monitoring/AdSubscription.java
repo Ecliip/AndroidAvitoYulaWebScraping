@@ -11,7 +11,9 @@ public class AdSubscription {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private long id;
+    @NonNull
     private final String name;
+    @NonNull
     private final String url;
 
     public AdSubscription(@NonNull String name, @NonNull String url) {

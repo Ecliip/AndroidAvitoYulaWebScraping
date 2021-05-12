@@ -40,6 +40,4 @@ public class AdSettings extends AppCompatActivity {
 
         adSubscriptionViewModel.insert(mySubscription);
     }
-
-
 }

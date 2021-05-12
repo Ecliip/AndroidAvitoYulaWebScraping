@@ -58,6 +58,10 @@ public abstract class AppDatabase extends RoomDatabase {
                     "name TEXT not NULL," +
                     "url TEXT not NULL," +
                     "UNIQUE(name, url));");
+
+            database.execSQL(
+                    "CREATE UNIQUE INDEX index_AdSubscription_name_url ON AdSubscription (name, url);"
+            );
         }
     };
 
