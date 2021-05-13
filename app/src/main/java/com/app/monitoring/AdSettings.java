@@ -30,14 +30,26 @@ public class AdSettings extends AppCompatActivity {
     }
 
     public void onClickStart(View view) {
-        Intent intent = new Intent(this, MainMenuActivity.class);
-        startActivity(intent);
+        String subscriptionName = binding.editTextUrlName.getText().toString();
+//                .trim();
+        String subscriptionUrl = binding.editTextUrl.getText().toString();
+//                .trim();
 
-        String subscriptionName = binding.editTextUrlName.getText().toString().trim();
-        String subscriptionUrl = binding.editTextUrl.getText().toString().trim();
+        // TODO check separately name and url to be unique
+        if (!subscriptionName.isEmpty() && !subscriptionUrl.isEmpty()) {
+            subscriptionName = subscriptionName.trim().toUpperCase();
+            subscriptionUrl = subscriptionUrl.trim().toLowerCase();
+            AdSubscription mySubscription = new AdSubscription(subscriptionName, subscriptionUrl);
+            try {
+                adSubscriptionViewModel.insert(mySubscription);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        AdSubscription mySubscription = new AdSubscription(subscriptionName, subscriptionUrl);
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            startActivity(intent);
 
-        adSubscriptionViewModel.insert(mySubscription);
+
+        }
     }
 }
