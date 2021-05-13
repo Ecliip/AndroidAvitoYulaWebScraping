@@ -13,6 +13,8 @@ import com.app.monitoring.databinding.ActivityAdSettingsBinding;
 public class AdSettings extends AppCompatActivity {
     private ActivityAdSettingsBinding binding;
     private AdSubscriptionViewModel adSubscriptionViewModel;
+    String subscriptionName;
+    String subscriptionUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +32,30 @@ public class AdSettings extends AppCompatActivity {
     }
 
     public void onClickStart(View view) {
-        String subscriptionName = binding.editTextUrlName.getText().toString();
-//                .trim();
-        String subscriptionUrl = binding.editTextUrl.getText().toString();
-//                .trim();
+            saveStringValues();
 
         // TODO check separately name and url to be unique
         if (!subscriptionName.isEmpty() && !subscriptionUrl.isEmpty()) {
-            subscriptionName = subscriptionName.trim().toUpperCase();
-            subscriptionUrl = subscriptionUrl.trim().toLowerCase();
-            AdSubscription mySubscription = new AdSubscription(subscriptionName, subscriptionUrl);
-            try {
-                adSubscriptionViewModel.insert(mySubscription);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            processStringValues();
+            saveSubscriptionInDatabase();
 
             Intent intent = new Intent(this, MainMenuActivity.class);
             startActivity(intent);
-
-
         }
+    }
+
+    public void saveStringValues() {
+        subscriptionName = binding.editTextUrlName.getText().toString();
+        subscriptionUrl = binding.editTextUrl.getText().toString();
+    }
+
+    public void processStringValues() {
+        subscriptionName = subscriptionName.trim().toUpperCase();
+        subscriptionUrl = subscriptionUrl.trim().toLowerCase();
+    }
+
+    public void saveSubscriptionInDatabase() {
+        AdSubscription mySubscription = new AdSubscription(subscriptionName, subscriptionUrl);
+        adSubscriptionViewModel.insert(mySubscription);
     }
 }
