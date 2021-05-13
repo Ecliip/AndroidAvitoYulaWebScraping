@@ -15,6 +15,7 @@ public class AdSettings extends AppCompatActivity {
     private AdSubscriptionViewModel adSubscriptionViewModel;
     String subscriptionName;
     String subscriptionUrl;
+    private boolean isNewSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +40,32 @@ public class AdSettings extends AppCompatActivity {
             processStringValues();
             saveSubscriptionInDatabase();
 
-            Intent intent = new Intent(this, MainMenuActivity.class);
-            startActivity(intent);
+            // TODO define isNewSubscription
+            isNewSubscription = true;
+            if (isNewSubscription) {
+                Intent service = new Intent(this, ScanningService.class);
+                service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
+                service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
+
+                Intent intent = new Intent(this, MainMenuActivity.class);
+                startActivity(intent);
+            }
+
+
         }
     }
 
-    public void saveStringValues() {
+    private void saveStringValues() {
         subscriptionName = binding.editTextUrlName.getText().toString();
         subscriptionUrl = binding.editTextUrl.getText().toString();
     }
 
-    public void processStringValues() {
+    private void processStringValues() {
         subscriptionName = subscriptionName.trim().toUpperCase();
         subscriptionUrl = subscriptionUrl.trim().toLowerCase();
     }
 
-    public void saveSubscriptionInDatabase() {
+    private void saveSubscriptionInDatabase() {
         AdSubscription mySubscription = new AdSubscription(subscriptionName, subscriptionUrl);
         adSubscriptionViewModel.insert(mySubscription);
     }
