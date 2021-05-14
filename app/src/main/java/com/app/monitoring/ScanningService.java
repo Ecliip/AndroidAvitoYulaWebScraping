@@ -6,7 +6,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -17,26 +19,24 @@ import java.util.List;
 // TODO implement this service later
 public class ScanningService extends Service {
     private List<ScannedAd> scannedAds;
-    private List<Subscription> subscriptionList;
+    private static ArrayList<Subscription> subscriptionList;
     public static final String SUBSCRIPTION_NAME = "subscriptionName";
     public static final String SUBSCRIPTION_URL = "subscriptionUrl";
     public static final String TAG = "ScanningService";
     private final String CHANNEL_ID = "Channel1";
+    private Handler handler;
+    public static boolean IS_SERVICE_RUNNING = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
         scannedAds = new ArrayList<>();
         subscriptionList = new ArrayList<>();
+        IS_SERVICE_RUNNING = true;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String name = intent.getStringExtra(SUBSCRIPTION_NAME);
-        String url = intent.getStringExtra(SUBSCRIPTION_URL);
-        Subscription subscription = new Subscription(name, url);
-        subscriptionList.add(subscription);
-
         createNotificationChannel();
         Intent intentBrowsingActivity = new Intent(this, BrowsingActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intentBrowsingActivity, 0);
@@ -49,7 +49,33 @@ public class ScanningService extends Service {
                 .build();
 
         startForeground(1, notification);
+        startScanning();
         return START_STICKY;
+    }
+
+    private void startScanning() {
+        handler = new Handler(Looper.myLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = showAllSubscriptions();
+                        if (!result.isEmpty()) {
+                            System.out.println(result);
+                        } else {
+                            System.out.println("No Subs");
+                        }
+                    }
+                }).start();
+
+                handler.postDelayed(this, 15000);
+            }
+        };
+        handler.postDelayed (runnable,5000);
+
+
     }
 
     private void createNotificationChannel() {
@@ -69,7 +95,7 @@ public class ScanningService extends Service {
     }
 
 
-    private class Subscription {
+    private static class Subscription {
         private final String name;
         private final String url;
 
@@ -87,11 +113,20 @@ public class ScanningService extends Service {
         }
     }
 
-
     @Override
     public void onDestroy() {
         stopForeground(true);
         stopSelf();
+        IS_SERVICE_RUNNING = false;
         super.onDestroy();
+    }
+
+    public static void addSubscription(String name, String url) {
+        Subscription subscription = new Subscription(name, url);
+        subscriptionList.add(subscription);
+    }
+
+    public String showAllSubscriptions() {
+       return subscriptionList.toString();
     }
 }

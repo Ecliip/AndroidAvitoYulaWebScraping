@@ -17,6 +17,7 @@ public class AdSettings extends AppCompatActivity {
     String subscriptionName;
     String subscriptionUrl;
     private boolean isNewSubscription;
+    private final Intent service = new Intent(this, ScanningService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +43,22 @@ public class AdSettings extends AppCompatActivity {
             saveSubscriptionInDatabase();
 
             // TODO define isNewSubscription
-            isNewSubscription = true;
-            if (isNewSubscription) {
-                Intent service = new Intent(this, ScanningService.class);
-                service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
-                service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
+            if(!ScanningService.IS_SERVICE_RUNNING) {
+                isNewSubscription = true;
+                if (isNewSubscription) {
+//                    service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
+//                    service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(service);
-                } else {
-                    startService(service);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(service);
+                    } else {
+                        startService(service);
+                    }
+                    Intent intent = new Intent(this, MainMenuActivity.class);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(this, MainMenuActivity.class);
-                startActivity(intent);
             }
+            ScanningService.addSubscription(subscriptionName, subscriptionUrl);
         }
     }
 
