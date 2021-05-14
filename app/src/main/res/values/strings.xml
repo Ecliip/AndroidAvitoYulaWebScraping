@@ -30,4 +30,7 @@
     <string name="hintSubscriptionName">Computers...</string>
     <string name="openBtn">Open</string>
     <string name="removeBtn">Remove</string>
+    <string name="notification_title">Foreground Service is running</string>
+    <string name="notification_message">Scannin ads...</string>
+    <string name="ticker_text">ticker text replace</string>
 </resources>

@@ -2,6 +2,7 @@ package com.app.monitoring;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -44,14 +45,17 @@ public class AdSettings extends AppCompatActivity {
             isNewSubscription = true;
             if (isNewSubscription) {
                 Intent service = new Intent(this, ScanningService.class);
-                service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
-                service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
+//                service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
+//                service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(service);
+                } else {
+                    startService(service);
+                }
                 Intent intent = new Intent(this, MainMenuActivity.class);
                 startActivity(intent);
             }
-
-
         }
     }
 
