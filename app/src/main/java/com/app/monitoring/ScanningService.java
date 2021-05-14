@@ -32,10 +32,10 @@ public class ScanningService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        String name = intent.getStringExtra(SUBSCRIPTION_NAME);
-//        String url = intent.getStringExtra(SUBSCRIPTION_URL);
-//        Subscription subscription = new Subscription(name, url);
-//        subscriptionList.add(subscription);
+        String name = intent.getStringExtra(SUBSCRIPTION_NAME);
+        String url = intent.getStringExtra(SUBSCRIPTION_URL);
+        Subscription subscription = new Subscription(name, url);
+        subscriptionList.add(subscription);
 
         createNotificationChannel();
         Intent intentBrowsingActivity = new Intent(this, BrowsingActivity.class);
@@ -59,8 +59,6 @@ public class ScanningService extends Service {
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(notificationChannel);
-
-
         }
     }
 
@@ -88,8 +86,6 @@ public class ScanningService extends Service {
             return url;
         }
     }
-
-
 
 
     @Override

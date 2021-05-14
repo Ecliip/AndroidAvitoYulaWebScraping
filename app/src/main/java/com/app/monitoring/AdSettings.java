@@ -45,8 +45,8 @@ public class AdSettings extends AppCompatActivity {
             isNewSubscription = true;
             if (isNewSubscription) {
                 Intent service = new Intent(this, ScanningService.class);
-//                service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
-//                service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
+                service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
+                service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     startForegroundService(service);
