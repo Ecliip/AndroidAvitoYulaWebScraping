@@ -20,13 +20,14 @@ import java.util.List;
 // TODO implement this service later
 public class ScanningService extends Service {
     private List<ScannedAd> scannedAds;
-    private static ArrayList<Subscription> subscriptionList;
+    private static List<AdSubscription> subscriptionList;
     public static final String SUBSCRIPTION_NAME = "subscriptionName";
     public static final String SUBSCRIPTION_URL = "subscriptionUrl";
     public static final String TAG = "ScanningService";
     private final String CHANNEL_ID = "Channel1";
     private Handler handler;
     public static boolean IS_SERVICE_RUNNING = false;
+    AdRepository adRepository;
 
     @Override
     public void onCreate() {
@@ -34,6 +35,7 @@ public class ScanningService extends Service {
         scannedAds = new ArrayList<>();
         subscriptionList = new ArrayList<>();
         IS_SERVICE_RUNNING = true;
+        adRepository = new AdRepository(getApplication());
         Log.i(TAG, "inside onCreate");
     }
 
@@ -131,6 +133,11 @@ public class ScanningService extends Service {
     }
 
     public String getAllSubscriptions() {
+        subscriptionList = accessAllSubscriptions();
        return subscriptionList.toString();
+    }
+
+    private List<AdSubscription> accessAllSubscriptions() {
+        return adRepository.getAllAdSubscriptions().getValue();
     }
 }

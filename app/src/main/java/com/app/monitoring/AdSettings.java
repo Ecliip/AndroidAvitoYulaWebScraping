@@ -65,6 +65,7 @@ public class AdSettings extends AppCompatActivity {
 //                    service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         startForegroundService(service);
+//                        ScanningService.addSubscription(subscriptionName, subscriptionUrl);
                         Log.i(TAG, "Android v >= Oreo: foreground service was created");
                     } else {
                         startService(service);
@@ -73,9 +74,11 @@ public class AdSettings extends AppCompatActivity {
                     Intent intent = new Intent(this, MainMenuActivity.class);
                     startActivity(intent);
                     Log.i(TAG, "Main activity started");
+
                 }
             } else {
                 Log.i(TAG, "SCANNING service is already running");
+//                ScanningService.addSubscription(subscriptionName, subscriptionUrl);
                 Intent intent = new Intent(this, MainMenuActivity.class);
                 startActivity(intent);
             }
