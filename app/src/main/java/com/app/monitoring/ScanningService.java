@@ -69,7 +69,7 @@ public class ScanningService extends Service {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String result = getAllSubscriptions();
+                        String result = getSubscriptionListAdString();
                         if (!result.isEmpty()) {
                             Log.i(TAG, "inside startScanning" + " " + result);
                         } else {
@@ -127,17 +127,21 @@ public class ScanningService extends Service {
         super.onDestroy();
     }
 
-    public static void addSubscription(String name, String url) {
-        Subscription subscription = new Subscription(name, url);
-        subscriptionList.add(subscription);
+//    public static void addSubscription(String name, String url) {
+//        AdSubscription subscription = new AdSubscription(name, url);
+//        subscriptionList.add(subscription);
+//    }
+
+    public String getSubscriptionListAdString() {
+        List<AdSubscription> subscriptions = accessAllSubscriptions();
+       return subscriptions.toString();
     }
 
-    public String getAllSubscriptions() {
-        subscriptionList = accessAllSubscriptions();
-       return subscriptionList.toString();
-    }
-
+//    TODO: this function gives NullPointerException
     private List<AdSubscription> accessAllSubscriptions() {
-        return adRepository.getAllAdSubscriptions().getValue();
+        List<AdSubscription> adSubscriptions = adRepository.getAllAdSubscriptions().getValue();
+        System.out.println(adSubscriptions.toString());
+
+        return adSubscriptions;
     }
 }
