@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -33,10 +34,12 @@ public class ScanningService extends Service {
         scannedAds = new ArrayList<>();
         subscriptionList = new ArrayList<>();
         IS_SERVICE_RUNNING = true;
+        Log.i(TAG, "inside onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "inside onStartCommand");
         createNotificationChannel();
         Intent intentBrowsingActivity = new Intent(this, BrowsingActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intentBrowsingActivity, 0);
@@ -50,10 +53,13 @@ public class ScanningService extends Service {
 
         startForeground(1, notification);
         startScanning();
+
+        Log.i(TAG, "inside onStartCommand - notification created");
         return START_STICKY;
     }
 
     private void startScanning() {
+        Log.i(TAG, "inside startScanning");
         handler = new Handler(Looper.myLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -63,9 +69,9 @@ public class ScanningService extends Service {
                     public void run() {
                         String result = showAllSubscriptions();
                         if (!result.isEmpty()) {
-                            System.out.println(result);
+                            Log.i(TAG, "inside startScanning" + " " + result);
                         } else {
-                            System.out.println("No Subs");
+                            Log.i(TAG, "inside startScanning" + " No Subs");
                         }
                     }
                 }).start();
@@ -74,8 +80,6 @@ public class ScanningService extends Service {
             }
         };
         handler.postDelayed (runnable,5000);
-
-
     }
 
     private void createNotificationChannel() {
