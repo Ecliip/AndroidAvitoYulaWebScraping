@@ -67,7 +67,7 @@ public class ScanningService extends Service {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String result = showAllSubscriptions();
+                        String result = getAllSubscriptions();
                         if (!result.isEmpty()) {
                             Log.i(TAG, "inside startScanning" + " " + result);
                         } else {
@@ -130,7 +130,7 @@ public class ScanningService extends Service {
         subscriptionList.add(subscription);
     }
 
-    public String showAllSubscriptions() {
+    public String getAllSubscriptions() {
        return subscriptionList.toString();
     }
 }

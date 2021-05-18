@@ -1,5 +1,6 @@
 package com.app.monitoring;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -11,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.app.monitoring.databinding.ActivityAdSettingsBinding;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class AdSettings extends AppCompatActivity {
     private static final String TAG = "AdSettings";
@@ -45,9 +49,15 @@ public class AdSettings extends AppCompatActivity {
             saveSubscriptionInDatabase();
 
             Log.i(TAG, "will check if service is running");
+
             if(!ScanningService.IS_SERVICE_RUNNING) {
+                Log.i(TAG, "SCANNING service is NOT running");
                 Log.i(TAG, "will create service");
                 isNewSubscription = true;
+//                boolean isNewSubscription = isServiceRunning("ScanningService");
+//                Log.i(TAG, "The service is running == " + isNewSubscription  );
+
+
                 // TODO define isNewSubscription
                 if (isNewSubscription) {
                     Intent service = new Intent(this, ScanningService.class);
@@ -64,6 +74,10 @@ public class AdSettings extends AppCompatActivity {
                     startActivity(intent);
                     Log.i(TAG, "Main activity started");
                 }
+            } else {
+                Log.i(TAG, "SCANNING service is already running");
+                Intent intent = new Intent(this, MainMenuActivity.class);
+                startActivity(intent);
             }
 //            ScanningService.addSubscription(subscriptionName, subscriptionUrl);
         }
@@ -82,6 +96,27 @@ public class AdSettings extends AppCompatActivity {
     private void saveSubscriptionInDatabase() {
         AdSubscription mySubscription = new AdSubscription(subscriptionName, subscriptionUrl);
         adSubscriptionViewModel.insert(mySubscription);
+    }
+
+    private boolean isServiceRunning(String serviceName) {
+        boolean serviceRunning = false;
+        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> l = am.getRunningServices(50);
+        Iterator<ActivityManager.RunningServiceInfo> i = l.iterator();
+        while (i.hasNext()) {
+            ActivityManager.RunningServiceInfo runningServiceInfo = i
+                    .next();
+
+            if(runningServiceInfo.service.getClassName().equals(serviceName)){
+                serviceRunning = true;
+
+                if(runningServiceInfo.foreground)
+                {
+                    //service run in foreground
+                }
+            }
+        }
+        return serviceRunning;
     }
 }
 

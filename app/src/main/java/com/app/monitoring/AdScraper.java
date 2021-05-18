@@ -85,6 +85,6 @@ public class AdScraper {
 
     public void stopScanning() {
         handler.removeCallbacks(runnable);
-        Log.i(TAG, "scanner stoped");
+        Log.i(TAG, "scanner stopped");
     }
 }
