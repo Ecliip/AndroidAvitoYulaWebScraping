@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // TODO implement this service later
 public class ScanningService extends Service {
@@ -79,7 +80,6 @@ public class ScanningService extends Service {
                         }
                     }
                 }).start();
-
                 handler.postDelayed(this, 15000);
             }
         };
@@ -136,28 +136,27 @@ public class ScanningService extends Service {
 
     public String getSubscriptionListAdString() {
         List<AdSubscription> subscriptions = accessAllSubscriptions();
+        String result;
         if (subscriptions == null) {
-            return "";
+            result = "";
         } else {
-            return subscriptions.toString();
+            if (subscriptions.size() > 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    result = subscriptions.stream().map(l -> String.valueOf(l.getName()))
+                            .collect(Collectors.joining(" "));
+                } else {
+                    result = "SDK VeRSION";
+                }
+            } else {
+                result = "EMPTY LIST";
+            }
         }
+        return result;
     }
 
 //    TODO: this function gives NullPointerException
     private List<AdSubscription> accessAllSubscriptions() {
         List<AdSubscription> adSubscriptions = adRepository.getListOfSubscriptions();
-        String aResult;
-        if(adSubscriptions == null) {
-            System.out.println("List is empty");
-            aResult = "";
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                adSubscriptions.stream().forEach(l -> System.out.println(TAG + " in FOREACH: " + l.getName()));
-            }
-        }
-
-//        String theResult = aResult.isEmpty() ? "It's null" : aResult;
-//        System.out.println(theResult);
         return adSubscriptions;
     }
 }
