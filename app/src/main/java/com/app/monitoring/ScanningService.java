@@ -30,6 +30,7 @@ public class ScanningService extends Service {
     private Handler handler;
     public static boolean IS_SERVICE_RUNNING = false;
     AdRepository adRepository;
+    private String result;
 
     @Override
     public void onCreate() {
@@ -39,10 +40,12 @@ public class ScanningService extends Service {
         IS_SERVICE_RUNNING = true;
         adRepository = new AdRepository(getApplication());
         Log.i(TAG, "inside onCreate");
+        result = getSubscriptionListAdString();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         Log.i(TAG, "inside onStartCommand");
         createNotificationChannel();
         Intent intentBrowsingActivity = new Intent(this, BrowsingActivity.class);
@@ -63,6 +66,7 @@ public class ScanningService extends Service {
     }
 
     private void startScanning() {
+        result = getSubscriptionListAdString();
         Log.i(TAG, "inside startScanning");
         handler = new Handler(Looper.myLooper());
         Runnable runnable = new Runnable() {
@@ -71,7 +75,6 @@ public class ScanningService extends Service {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String result = getSubscriptionListAdString();
                         String theResult = result == null ? "empty" : result;
                         if (!result.isEmpty()) {
                             Log.i(TAG, "inside startScanning" + " " + theResult);

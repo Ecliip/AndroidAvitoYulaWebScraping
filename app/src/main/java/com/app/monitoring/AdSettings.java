@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -31,7 +32,6 @@ public class AdSettings extends AppCompatActivity {
         binding = ActivityAdSettingsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
         adSubscriptionViewModel = new ViewModelProvider(this).get(AdSubscriptionViewModel.class);
     }
 
@@ -44,44 +44,23 @@ public class AdSettings extends AppCompatActivity {
             saveStringValues();
         // TODO check separately name and url to be unique
         Log.i(TAG, "will check if fields are not empty");
+
         if (!subscriptionName.isEmpty() && !subscriptionUrl.isEmpty()) {
             processStringValues();
             saveSubscriptionInDatabase();
+            Handler handler = new Handler();
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    runTheService();
+                    System.out.println("Delayed service executed");
+                }
+            };
+            handler.postDelayed(runnable, 5000);
+
 
             Log.i(TAG, "will check if service is running");
 
-            if(!ScanningService.IS_SERVICE_RUNNING) {
-                Log.i(TAG, "SCANNING service is NOT running");
-                Log.i(TAG, "will create service");
-                isNewSubscription = true;
-//                boolean isNewSubscription = isServiceRunning("ScanningService");
-//                Log.i(TAG, "The service is running == " + isNewSubscription  );
-
-
-                // TODO define isNewSubscription
-                if (isNewSubscription) {
-                    Intent service = new Intent(this, ScanningService.class);
-//                    service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
-//                    service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        startForegroundService(service);
-//                        ScanningService.addSubscription(subscriptionName, subscriptionUrl);
-                        Log.i(TAG, "Android v >= Oreo: foreground service was created");
-                    } else {
-                        startService(service);
-                        Log.i(TAG, "Android v < Oreo: foreground service was created");
-                    }
-                    Intent intent = new Intent(this, MainMenuActivity.class);
-                    startActivity(intent);
-                    Log.i(TAG, "Main activity started");
-
-                }
-            } else {
-                Log.i(TAG, "SCANNING service is already running");
-//                ScanningService.addSubscription(subscriptionName, subscriptionUrl);
-                Intent intent = new Intent(this, MainMenuActivity.class);
-                startActivity(intent);
-            }
 //            ScanningService.addSubscription(subscriptionName, subscriptionUrl);
         }
     }
@@ -120,6 +99,42 @@ public class AdSettings extends AppCompatActivity {
             }
         }
         return serviceRunning;
+    }
+
+    private void runTheService() {
+        if(!ScanningService.IS_SERVICE_RUNNING) {
+            Log.i(TAG, "SCANNING service is NOT running");
+            Log.i(TAG, "will create service");
+            isNewSubscription = true;
+//                boolean isNewSubscription = isServiceRunning("ScanningService");
+//                Log.i(TAG, "The service is running == " + isNewSubscription  );
+
+
+            // TODO define isNewSubscription
+            if (isNewSubscription) {
+                Intent service = new Intent(this, ScanningService.class);
+//                    service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
+//                    service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(service);
+//                        ScanningService.addSubscription(subscriptionName, subscriptionUrl);
+                    Log.i(TAG, "Android v >= Oreo: foreground service was created");
+                } else {
+                    startService(service);
+                    Log.i(TAG, "Android v < Oreo: foreground service was created");
+                }
+                Intent intent = new Intent(this, MainMenuActivity.class);
+                startActivity(intent);
+                Log.i(TAG, "Main activity started");
+
+            }
+        } else {
+            Log.i(TAG, "SCANNING service is already running");
+//                ScanningService.addSubscription(subscriptionName, subscriptionUrl);
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            startActivity(intent);
+        }
+
     }
 }
 
