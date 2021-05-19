@@ -22,11 +22,16 @@ public interface AdSubscriptionDao {
     void deleteAdSubscription(AdSubscription adSubscription);
 
     @Query("SELECT * FROM AdSubscription")
-    public LiveData<List<AdSubscription>> listAdSubscriptions();
+    public LiveData<List<AdSubscription>> listLiveDataAdSubscriptions();
+
+    @Query("SELECT * FROM AdSubscription")
+    public List<AdSubscription> listSubscriptions();
 
     @Query("DELETE FROM AdSubscription")
     void deleteAllAdSubscriptions();
 
     @Query("SELECT * FROM AdSubscription WHERE name = :name")
     public AdSubscription getAdSubscriptionByName(String name);
+
+
 }

@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -70,8 +71,9 @@ public class ScanningService extends Service {
                     @Override
                     public void run() {
                         String result = getSubscriptionListAdString();
+                        String theResult = result == null ? "empty" : result;
                         if (!result.isEmpty()) {
-                            Log.i(TAG, "inside startScanning" + " " + result);
+                            Log.i(TAG, "inside startScanning" + " " + theResult);
                         } else {
                             Log.i(TAG, "inside startScanning" + " No Subs");
                         }
@@ -134,14 +136,28 @@ public class ScanningService extends Service {
 
     public String getSubscriptionListAdString() {
         List<AdSubscription> subscriptions = accessAllSubscriptions();
-       return subscriptions.toString();
+        if (subscriptions == null) {
+            return "";
+        } else {
+            return subscriptions.toString();
+        }
     }
 
 //    TODO: this function gives NullPointerException
     private List<AdSubscription> accessAllSubscriptions() {
-        List<AdSubscription> adSubscriptions = adRepository.getAllAdSubscriptions().getValue();
-        System.out.println(adSubscriptions.toString());
+        List<AdSubscription> adSubscriptions = adRepository.getListOfSubscriptions();
+        String aResult;
+        if(adSubscriptions == null) {
+            System.out.println("List is empty");
+            aResult = "";
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                adSubscriptions.stream().forEach(l -> System.out.println(TAG + " in FOREACH: " + l.getName()));
+            }
+        }
 
+//        String theResult = aResult.isEmpty() ? "It's null" : aResult;
+//        System.out.println(theResult);
         return adSubscriptions;
     }
 }

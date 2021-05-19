@@ -14,6 +14,7 @@ class AdRepository {
     private LiveData<List<Ad>> mAllAds;
     private LiveData<List<ScrapedAd>> mAllScrapedAds;
     private LiveData<List<AdSubscription>> mAllAdSubscriptions;
+    List<AdSubscription> mListAdSubscriptions;
     //    private List<ScrapedAd> mAllScrapedAdsList;
 
     // Note that in order to unit test the AdRepository, you have to remove the Application
@@ -28,7 +29,8 @@ class AdRepository {
 
         mAllAds = mAdDAO.listAds();
         mAllScrapedAds = mScrapedAdDao.listAds();
-        mAllAdSubscriptions = mAdSubcriptionDao.listAdSubscriptions();
+        mAllAdSubscriptions = mAdSubcriptionDao.listLiveDataAdSubscriptions();
+//        mListAdSubscriptions = mAdSubcriptionDao.listSubscriptions();
 //        mAllScrapedAdsList = mScrapedAdDao.ArayListScrapedAd();
     }
 
@@ -46,6 +48,19 @@ class AdRepository {
         return mAllAdSubscriptions;
     }
 
+//    public List<AdSubscription> getListOfSubscriptions() {
+//        return mListAdSubscriptions;
+//    }
+
+      public List<AdSubscription> getListOfSubscriptions() {
+          AppDatabase.databaseWriteExecutor.execute(() -> {
+              mListAdSubscriptions = mAdSubcriptionDao.listSubscriptions();
+          });
+          return mListAdSubscriptions;
+    }
+
+
+
     //    List<ScrapedAd> getAllScrapedAdsList() {
 //        return mAllScrapedAdsList;
 //    }
@@ -56,8 +71,6 @@ class AdRepository {
             mAdDAO.insertAd(ad);
         });
     }
-
-
 
     void insert(ScrapedAd ad) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
