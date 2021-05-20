@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Monitoring">
-        <activity android:name=".BrowsingActivity"></activity>
+        <activity android:name=".EmbeddedPageActivity"></activity>
+        <activity android:name=".BrowsingActivity" />
         <activity android:name=".AdSettings" />
 
         <service
