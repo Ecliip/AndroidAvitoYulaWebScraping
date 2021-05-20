@@ -72,10 +72,11 @@ public class ScanningService extends Service {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                String theResult = result == null ? "empty" : result;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String theResult = result == null ? "empty" : result;
+
                         if (!result.isEmpty()) {
                             Log.i(TAG, "inside startScanning" + " " + theResult);
                         } else {
@@ -83,10 +84,10 @@ public class ScanningService extends Service {
                         }
                     }
                 }).start();
-                handler.postDelayed(this, 15000);
+                handler.postDelayed(this, 5000);
             }
         };
-        handler.postDelayed (runnable,5000);
+        handler.post(runnable);
     }
 
     private void createNotificationChannel() {
