@@ -40,7 +40,6 @@ public class ScanningService extends Service {
         IS_SERVICE_RUNNING = true;
         adRepository = new AdRepository(getApplication());
         Log.i(TAG, "inside onCreate");
-        result = getSubscriptionListAdString();
     }
 
     @Override
@@ -72,15 +71,16 @@ public class ScanningService extends Service {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                result = getSubscriptionListAdString();
                 String theResult = result == null ? "empty" : result;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-
                         if (!result.isEmpty()) {
                             Log.i(TAG, "inside startScanning" + " " + theResult);
                         } else {
                             Log.i(TAG, "inside startScanning" + " No Subs");
+                            stopSelf();
                         }
                     }
                 }).start();
@@ -152,7 +152,7 @@ public class ScanningService extends Service {
                     result = "SDK VeRSION";
                 }
             } else {
-                result = "EMPTY LIST";
+                result = "";
             }
         }
         return result;
@@ -160,6 +160,7 @@ public class ScanningService extends Service {
 
 //    TODO: this function gives NullPointerException
     private List<AdSubscription> accessAllSubscriptions() {
+        Log.i(TAG, "INSIDE accessAllSubscriptions()");
         List<AdSubscription> adSubscriptions = adRepository.getListOfSubscriptions();
         return adSubscriptions;
     }
