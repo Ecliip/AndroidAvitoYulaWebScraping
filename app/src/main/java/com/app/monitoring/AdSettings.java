@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -48,19 +47,9 @@ public class AdSettings extends AppCompatActivity {
         if (!subscriptionName.isEmpty() && !subscriptionUrl.isEmpty()) {
             processStringValues();
             saveSubscriptionInDatabase();
-            Handler handler = new Handler();
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    runTheService();
-                    System.out.println("Delayed service executed");
-                }
-            };
-            handler.postDelayed(runnable, 5000);
-
-
+            runTheService();
+            System.out.println("Delayed service executed");
             Log.i(TAG, "will check if service is running");
-
 //            ScanningService.addSubscription(subscriptionName, subscriptionUrl);
         }
     }
