@@ -71,4 +71,7 @@ dependencies {
     implementation "androidx.work:work-runtime:$work_version"
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+
+    // Custom Tabs from chrome (integrates tabs into the app)
+    implementation "androidx.browser:browser:$browserVersion"
 }
