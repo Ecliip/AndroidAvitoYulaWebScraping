@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +25,7 @@ public class AdSettings extends AppCompatActivity {
     String subscriptionName;
     String subscriptionUrl;
     private boolean isNewSubscription;
+    private Button embeddedBtn;
 //    private final Intent service = new Intent(this, ScanningService.class);
 
     @Override
@@ -32,6 +35,7 @@ public class AdSettings extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         adSubscriptionViewModel = new ViewModelProvider(this).get(AdSubscriptionViewModel.class);
+        embeddedBtn = binding.embeddedBtn;
     }
 
     public void onClickOpenSite(View view) {
@@ -115,7 +119,6 @@ public class AdSettings extends AppCompatActivity {
                 Intent intent = new Intent(this, MainMenuActivity.class);
                 startActivity(intent);
                 Log.i(TAG, "Main activity started");
-
             }
         } else {
             Log.i(TAG, "SCANNING service is already running");
@@ -123,6 +126,23 @@ public class AdSettings extends AppCompatActivity {
             Intent intent = new Intent(this, MainMenuActivity.class);
             startActivity(intent);
         }
+
+    }
+
+    public void onClickEmbeddedBtn(View view) {
+        Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, EmbeddedPageActivity.class);
+        startActivity(intent);
+
+//        String url = "https://paul.kinlan.me/";
+//        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+//
+//        Bitmap icon = BitmapFactory.decodeResource(getResources(),
+//                android.R.drawable.ic_menu_share);
+//
+//        CustomTabsIntent customTabsIntent = builder
+//                .build();
+//        customTabsIntent.launchUrl(this, Uri.parse(url));
 
     }
 }

@@ -19,7 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// TODO implement this service later
+// TODO implement real scanning for an URL
+// TODO launch notification for scanned ads
+// TODO scan multiple URLs
+// TODO launch notification for each of them
+// TODO improve navigation between views
+// TODO improve views for different screen sizes (also vertical and horizontal)
+// TODO improve verification new URLs
+// TODO add a switcher for each URL (turn on and turn off)
+
+
+
 public class ScanningService extends Service {
     private List<ScannedAd> scannedAds;
     private static List<AdSubscription> subscriptionList;
@@ -44,10 +54,9 @@ public class ScanningService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         Log.i(TAG, "inside onStartCommand");
         createNotificationChannel();
-        Intent intentBrowsingActivity = new Intent(this, BrowsingActivity.class);
+        Intent intentBrowsingActivity = new Intent(this, MainMenuActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intentBrowsingActivity, 0);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getText(R.string.notification_title))
