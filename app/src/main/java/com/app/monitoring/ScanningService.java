@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -17,7 +16,6 @@ import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 // TODO implement real scanning for an URL
 // TODO launch notification for scanned ads
@@ -41,6 +39,7 @@ public class ScanningService extends Service {
     public static boolean IS_SERVICE_RUNNING = false;
     AdRepository adRepository;
     private String result;
+    private int urlCounter = 0;
 
     @Override
     public void onCreate() {
@@ -74,13 +73,13 @@ public class ScanningService extends Service {
     }
 
     private void startScanning() {
-        result = getSubscriptionListAdString();
+        result = getNextSubscriptionUrl();
         Log.i(TAG, "inside startScanning");
         handler = new Handler(Looper.myLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                result = getSubscriptionListAdString();
+                result = getNextSubscriptionUrl();
                 String theResult = result == null ? "empty" : result;
                 new Thread(new Runnable() {
                     @Override
@@ -147,19 +146,14 @@ public class ScanningService extends Service {
 //        subscriptionList.add(subscription);
 //    }
 
-    public String getSubscriptionListAdString() {
+    public String getNextSubscriptionUrl() {
         List<AdSubscription> subscriptions = accessAllSubscriptions();
         String result;
         if (subscriptions == null) {
             result = "";
         } else {
             if (subscriptions.size() > 0) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    result = subscriptions.stream().map(l -> String.valueOf(l.getName()))
-                            .collect(Collectors.joining(" "));
-                } else {
-                    result = "SDK VeRSION";
-                }
+                result = subscriptions.get(urlCounter).getUrl();
             } else {
                 result = "";
             }
