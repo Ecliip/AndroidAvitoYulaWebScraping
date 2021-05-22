@@ -38,7 +38,7 @@ public class ScanningService extends Service {
     private Handler handler;
     public static boolean IS_SERVICE_RUNNING = false;
     AdRepository adRepository;
-    private String result;
+    private String currentUrl;
     private int urlCounter = 0;
 
     @Override
@@ -73,19 +73,18 @@ public class ScanningService extends Service {
     }
 
     private void startScanning() {
-        result = getNextSubscriptionUrl();
+        currentUrl = getNextSubscriptionUrl();
         Log.i(TAG, "inside startScanning");
         handler = new Handler(Looper.myLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                result = getNextSubscriptionUrl();
-                String theResult = result == null ? "empty" : result;
+                currentUrl = getNextSubscriptionUrl();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if (!result.isEmpty()) {
-                            Log.i(TAG, "inside startScanning" + " " + theResult);
+                        if (!currentUrl.isEmpty()) {
+                            Log.i(TAG, "inside startScanning" + " " + currentUrl);
                         } else {
                             Log.i(TAG, "inside startScanning" + " No Subs");
                             stopSelf();

@@ -34,7 +34,7 @@ public class NotificationService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         int requestID = (int) System.currentTimeMillis();
 
-        String name = "Notificatio name";
+        String name = "Notification name";
         String description = "Notification Description";
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(

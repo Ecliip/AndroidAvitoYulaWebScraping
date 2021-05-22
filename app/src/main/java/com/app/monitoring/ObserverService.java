@@ -1,5 +1,4 @@
 package com.app.monitoring;
-
 import android.app.IntentService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,6 +11,12 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LifecycleService;
+
+/**
+ * DESCRIPTION: this Service was use in the previous version of the app
+ * for launching notifications
+ */
+
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in

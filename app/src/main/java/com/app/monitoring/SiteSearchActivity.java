@@ -17,6 +17,13 @@ import com.app.monitoring.databinding.ActivitySiteSearchBinding;
 
 import java.util.List;
 
+    /**
+     * This Activity / view was showing all the scrapped ads
+     *
+     * Also started services / workers / classes related to scrapping
+     * or launching notifications
+     */
+
 public class SiteSearchActivity extends AppCompatActivity implements AdListAdapter.AdClickInterface {
     private static final String TAG = "SiteSearchActivity";
 
@@ -98,9 +105,12 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
         String targetUlrText = intent.getStringExtra(EXTRA_TARGET_URL);
         targetUrlView.setText(targetUlrText);
 
+        // Starting the worker for scrapping for the first time ads
+        // Then worker will call AdScrapper.class
         mAdViewModel.callWorkManager(targetUlrText);
         mScrapedAdViewModel.getmScraper().scan(targetUlrText);
 
+        // This service is showing notifications about new ads
         observerIntent = new Intent(this, ObserverService.class);
         startService(observerIntent);
     }
