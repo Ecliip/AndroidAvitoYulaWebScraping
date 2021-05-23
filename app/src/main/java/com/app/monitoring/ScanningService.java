@@ -14,6 +14,12 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +47,8 @@ public class ScanningService extends Service {
     private String currentUrl;
     private int urlCounter = 0;
     private int [] controller;
+    private AdDAO adDao;
+    private ScrapedAdDao scrapedAdDao;
 
     @Override
     public void onCreate() {
@@ -50,6 +58,7 @@ public class ScanningService extends Service {
         IS_SERVICE_RUNNING = true;
         adRepository = new AdRepository(getApplication());
         Log.i(TAG, "inside onCreate");
+        scrapedAdDao = AppDatabase.getDatabase(getApplicationContext()).scrapedAdDao();
     }
 
     @Override
@@ -84,12 +93,13 @@ public class ScanningService extends Service {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if (!currentUrl.isEmpty()) {
-                            Log.i(TAG, "inside startScanning" + " " + currentUrl);
-                        } else {
-                            Log.i(TAG, "inside startScanning" + " No Subs");
-                            stopSelf();
-                        }
+                        ScrapedAd anAdWithCurrentUrl = scrapedAdDao.checkIfAdWithUrlExists(currentUrl);
+                        Elements ads = getAdsFromTheWeb();
+                            if (anAdWithCurrentUrl == null) {
+                                insertAdsAtDb(ads, true);
+                            } else {
+                                insertAdsAtDb(ads, false);
+                            }
                     }
                 }).start();
                 handler.postDelayed(this, 5000);
@@ -167,4 +177,38 @@ public class ScanningService extends Service {
         List<AdSubscription> adSubscriptions = adRepository.getListOfSubscriptions();
         return adSubscriptions;
     }
+
+    private void insertAdsAtDb(Elements ads, boolean isHidden) {
+        for (Element ad : ads) {
+            Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
+            String headingHref = heading.selectFirst("a").attr("href");
+            String adName = ad.select("h3").text();
+            // avito ad id
+            String id = ad.attr("id");
+            headingHref = "https://www.avito.ru".concat(headingHref);
+            ScrapedAd scrapedAd = new ScrapedAd(id, adName, headingHref, currentUrl, isHidden);
+//                                Ad adResult = adDao.checkIfExtists(scrapedAd.getAvito_ad_id());
+            ScrapedAd scrapedAdResult = scrapedAdDao.checkIfExists(id);
+            if (scrapedAdResult == null) {
+                Log.i("NEW HIDDEN ADD", String.format("%s: %s - %s", TAG, adName, id));
+                scrapedAdDao.insertAd(scrapedAd);
+            }
+        }
+    }
+
+    private Elements getAdsFromTheWeb() {
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(currentUrl)
+    //                                    .userAgent("Chrome/90.0.4430.85")
+    //                                    .referrer("http://www.google.com")
+    //                                   .timeout(10000)
+                    .get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Elements ads = doc.select(".iva-item-root-G3n7v");
+        return ads;
+    }
+
 }
