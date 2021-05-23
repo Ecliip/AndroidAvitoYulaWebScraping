@@ -30,6 +30,9 @@ public interface ScrapedAdDao {
     @Query("SELECT * FROM ScrapedAd WHERE avito_ad_id = :avitoAdId")
     public ScrapedAd checkIfExists(String avitoAdId);
 
+    @Query("SELECT * FROM ScrapedAd WHERE user_query = :url")
+    public ScrapedAd checkIfAdWithUrlExists(String url);
+
     @Query("DELETE FROM ScrapedAd")
     void deleteAll();
 }

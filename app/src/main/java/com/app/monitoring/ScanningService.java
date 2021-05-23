@@ -40,6 +40,7 @@ public class ScanningService extends Service {
     AdRepository adRepository;
     private String currentUrl;
     private int urlCounter = 0;
+    private int [] controller;
 
     @Override
     public void onCreate() {

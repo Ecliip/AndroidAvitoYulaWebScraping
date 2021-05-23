@@ -68,7 +68,6 @@ public class AdScraper {
                         }
                     }
                 }).start();
-
                 // END TEST SCAN
                 handler.postDelayed(this, 30000);
             }
