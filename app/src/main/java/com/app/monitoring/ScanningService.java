@@ -59,6 +59,7 @@ public class ScanningService extends Service {
         adRepository = new AdRepository(getApplication());
         Log.i(TAG, "inside onCreate");
         scrapedAdDao = AppDatabase.getDatabase(getApplicationContext()).scrapedAdDao();
+
     }
 
     @Override
@@ -75,6 +76,7 @@ public class ScanningService extends Service {
                 .setTicker(getText(R.string.ticker_text))
                 .build();
 
+//        scrapedAdDao.deleteAll();
         startForeground(1, notification);
         startScanning();
 
@@ -96,13 +98,13 @@ public class ScanningService extends Service {
                         ScrapedAd anAdWithCurrentUrl = scrapedAdDao.checkIfAdWithUrlExists(currentUrl);
                         Elements ads = getAdsFromTheWeb();
                             if (anAdWithCurrentUrl == null) {
-                                insertAdsAtDb(ads, true);
+                                insertAdsAtDb(ads, true, "NEW HIDDEN ADD");
                             } else {
-                                insertAdsAtDb(ads, false);
+                                insertAdsAtDb(ads, false, "NEW VISIBLE ADD");
                             }
                     }
                 }).start();
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, 20000);
             }
         };
         handler.post(runnable);
@@ -124,7 +126,6 @@ public class ScanningService extends Service {
         return null;
     }
 
-
     private static class Subscription {
         private final String name;
         private final String url;
@@ -135,6 +136,7 @@ public class ScanningService extends Service {
         }
 
         public String getName() {
+
             return name;
         }
 
@@ -145,6 +147,14 @@ public class ScanningService extends Service {
 
     @Override
     public void onDestroy() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                scrapedAdDao.deleteAll();
+            }
+        }).start();
+
+
         stopForeground(true);
         stopSelf();
         IS_SERVICE_RUNNING = false;
@@ -158,14 +168,12 @@ public class ScanningService extends Service {
 
     public String getNextSubscriptionUrl() {
         List<AdSubscription> subscriptions = accessAllSubscriptions();
-        String result;
-        if (subscriptions == null) {
-            result = "";
+        String result = null;
+        if (subscriptions == null || subscriptions.isEmpty()) {
+            onDestroy();
         } else {
             if (subscriptions.size() > 0) {
                 result = subscriptions.get(urlCounter).getUrl();
-            } else {
-                result = "";
             }
         }
         return result;
@@ -178,37 +186,41 @@ public class ScanningService extends Service {
         return adSubscriptions;
     }
 
-    private void insertAdsAtDb(Elements ads, boolean isHidden) {
-        for (Element ad : ads) {
-            Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
-            String headingHref = heading.selectFirst("a").attr("href");
-            String adName = ad.select("h3").text();
-            // avito ad id
-            String id = ad.attr("id");
-            headingHref = "https://www.avito.ru".concat(headingHref);
-            ScrapedAd scrapedAd = new ScrapedAd(id, adName, headingHref, currentUrl, isHidden);
+    private void insertAdsAtDb(Elements ads, boolean isHidden, String debugString) {
+        if (ads != null) {
+            for (Element ad : ads) {
+                Element heading = ad.selectFirst(".iva-item-titleStep-2bjuh");
+                String headingHref = heading.selectFirst("a").attr("href");
+                String adName = ad.select("h3").text();
+                // avito ad id
+                String id = ad.attr("id");
+                headingHref = "https://www.avito.ru".concat(headingHref);
+                ScrapedAd scrapedAd = new ScrapedAd(id, adName, headingHref, currentUrl, isHidden);
 //                                Ad adResult = adDao.checkIfExtists(scrapedAd.getAvito_ad_id());
-            ScrapedAd scrapedAdResult = scrapedAdDao.checkIfExists(id);
-            if (scrapedAdResult == null) {
-                Log.i("NEW HIDDEN ADD", String.format("%s: %s - %s", TAG, adName, id));
-                scrapedAdDao.insertAd(scrapedAd);
+                ScrapedAd scrapedAdResult = scrapedAdDao.checkIfExists(id);
+                if (scrapedAdResult == null) {
+                    Log.i(debugString, String.format("%s: %s - %s", TAG, adName, id));
+                    scrapedAdDao.insertAd(scrapedAd);
+                }
             }
         }
     }
 
     private Elements getAdsFromTheWeb() {
         Document doc = null;
+        Elements ads;
         try {
-            doc = Jsoup.connect(currentUrl)
-    //                                    .userAgent("Chrome/90.0.4430.85")
-    //                                    .referrer("http://www.google.com")
-    //                                   .timeout(10000)
-                    .get();
-        } catch (IOException e) {
+            doc = Jsoup.connect(currentUrl).get();
+            ads = doc.select(".iva-item-root-G3n7v");
+        } catch (Exception e) {
             e.printStackTrace();
+            ads = null;
         }
-        Elements ads = doc.select(".iva-item-root-G3n7v");
-        return ads;
+        if (ads != null) {
+            return ads;
+        } else {
+            return null;
+        }
     }
 
 }
