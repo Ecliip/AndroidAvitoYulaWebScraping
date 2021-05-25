@@ -19,7 +19,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,6 +146,7 @@ public class ScanningService extends Service {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -158,7 +158,6 @@ public class ScanningService extends Service {
         stopForeground(true);
         stopSelf();
         IS_SERVICE_RUNNING = false;
-        super.onDestroy();
     }
 
 //    public static void addSubscription(String name, String url) {
@@ -182,7 +181,14 @@ public class ScanningService extends Service {
 //    TODO: this function gives NullPointerException
     private List<AdSubscription> accessAllSubscriptions() {
         Log.i(TAG, "INSIDE accessAllSubscriptions()");
-        List<AdSubscription> adSubscriptions = adRepository.getListOfSubscriptions();
+        List<AdSubscription> adSubscriptions;
+        adSubscriptions = adRepository.getListOfSubscriptions();
+
+        if (adSubscriptions.isEmpty()) {
+            Log.i(TAG, "adSubscription is Null");
+            onDestroy();
+        }
+
         return adSubscriptions;
     }
 
