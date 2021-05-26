@@ -109,7 +109,13 @@ public class AdSettings extends AppCompatActivity {
 //                    service.putExtra(ScanningService.SUBSCRIPTION_NAME, subscriptionName);
 //                    service.putExtra(ScanningService.SUBSCRIPTION_URL, subscriptionUrl);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(service);
+//                    try {
+//                        Thread.sleep(500);
+                        startForegroundService(service);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+
 //                        ScanningService.addSubscription(subscriptionName, subscriptionUrl);
                     Log.i(TAG, "Android v >= Oreo: foreground service was created");
                 } else {

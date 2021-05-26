@@ -47,7 +47,7 @@ public class ScanningService extends LifecycleService {
     private AdDAO adDao;
     private ScrapedAdDao scrapedAdDao;
     private AdSubscriptionDao adSubscriptionDao;
-    Runnable runnable;
+    private Runnable runnable;
 
     @Override
     public void onCreate() {
@@ -86,7 +86,7 @@ public class ScanningService extends LifecycleService {
     }
 
     private void startScanning() {
-        currentUrl = getNextSubscriptionUrl();
+//        currentUrl = getNextSubscriptionUrl();
         Log.i(TAG, "inside startScanning");
         handler = new Handler(Looper.myLooper());
         runnable = new Runnable() {
@@ -157,7 +157,6 @@ public class ScanningService extends LifecycleService {
         String result = null;
         System.out.println("Size "+subscriptions.size());
         if (subscriptions == null || subscriptions.isEmpty()) {
-
             onDestroy();
         } else {
             if (subscriptions.size() > 0) {
@@ -178,6 +177,11 @@ public class ScanningService extends LifecycleService {
                 subscriptionList = adSubscriptionDao.listSubscriptions();
             }
         }).start();
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return subscriptionList;
     }
     private void insertAdsAtDb(Elements ads, boolean isHidden, String debugString) {
@@ -227,7 +231,6 @@ public class ScanningService extends LifecycleService {
                 scrapedAdDao.deleteAll();
             }
         }).start();
-
         handler.removeCallbacks(runnable);
         stopForeground(true);
         stopSelf();
