@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
@@ -13,6 +12,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.LifecycleService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,9 +31,7 @@ import java.util.List;
 // TODO improve verification new URLs
 // TODO add a switcher for each URL (turn on and turn off)
 
-
-
-public class ScanningService extends Service {
+public class ScanningService extends LifecycleService {
     private List<ScannedAd> scannedAds;
     private static List<AdSubscription> subscriptionList;
     public static final String SUBSCRIPTION_NAME = "subscriptionName";
@@ -48,6 +46,8 @@ public class ScanningService extends Service {
     private int [] controller;
     private AdDAO adDao;
     private ScrapedAdDao scrapedAdDao;
+    private AdSubscriptionDao adSubscriptionDao;
+    Runnable runnable;
 
     @Override
     public void onCreate() {
@@ -58,15 +58,17 @@ public class ScanningService extends Service {
         adRepository = new AdRepository(getApplication());
         Log.i(TAG, "inside onCreate");
         scrapedAdDao = AppDatabase.getDatabase(getApplicationContext()).scrapedAdDao();
-
+        adSubscriptionDao = AppDatabase.getDatabase(getApplicationContext()).adSubscriptionDao();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+
         Log.i(TAG, "inside onStartCommand");
         createNotificationChannel();
         Intent intentBrowsingActivity = new Intent(this, MainMenuActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intentBrowsingActivity, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intentBrowsingActivity, 0);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getText(R.string.notification_title))
                 .setContentText(getText(R.string.notification_message))
@@ -87,7 +89,7 @@ public class ScanningService extends Service {
         currentUrl = getNextSubscriptionUrl();
         Log.i(TAG, "inside startScanning");
         handler = new Handler(Looper.myLooper());
-        Runnable runnable = new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 currentUrl = getNextSubscriptionUrl();
@@ -96,11 +98,11 @@ public class ScanningService extends Service {
                     public void run() {
                         ScrapedAd anAdWithCurrentUrl = scrapedAdDao.checkIfAdWithUrlExists(currentUrl);
                         Elements ads = getAdsFromTheWeb();
-                            if (anAdWithCurrentUrl == null) {
-                                insertAdsAtDb(ads, true, "NEW HIDDEN ADD");
-                            } else {
-                                insertAdsAtDb(ads, false, "NEW VISIBLE ADD");
-                            }
+                        if (anAdWithCurrentUrl == null) {
+                            insertAdsAtDb(ads, true, "NEW HIDDEN ADD");
+                        } else {
+                            insertAdsAtDb(ads, false, "NEW VISIBLE ADD");
+                        }
                     }
                 }).start();
                 handler.postDelayed(this, 20000);
@@ -122,6 +124,7 @@ public class ScanningService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        super.onBind(intent);
         return null;
     }
 
@@ -144,31 +147,17 @@ public class ScanningService extends Service {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                scrapedAdDao.deleteAll();
-            }
-        }).start();
-
-
-        stopForeground(true);
-        stopSelf();
-        IS_SERVICE_RUNNING = false;
-    }
 
 //    public static void addSubscription(String name, String url) {
 //        AdSubscription subscription = new AdSubscription(name, url);
 //        subscriptionList.add(subscription);
 //    }
-
     public String getNextSubscriptionUrl() {
         List<AdSubscription> subscriptions = accessAllSubscriptions();
         String result = null;
+        System.out.println("Size "+subscriptions.size());
         if (subscriptions == null || subscriptions.isEmpty()) {
+
             onDestroy();
         } else {
             if (subscriptions.size() > 0) {
@@ -179,19 +168,18 @@ public class ScanningService extends Service {
     }
 
 //    TODO: this function gives NullPointerException
+
     private List<AdSubscription> accessAllSubscriptions() {
         Log.i(TAG, "INSIDE accessAllSubscriptions()");
-        List<AdSubscription> adSubscriptions;
-        adSubscriptions = adRepository.getListOfSubscriptions();
-
-        if (adSubscriptions.isEmpty()) {
-            Log.i(TAG, "adSubscription is Null");
-            onDestroy();
-        }
-
-        return adSubscriptions;
+        // TODO: access the list of subscription
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                subscriptionList = adSubscriptionDao.listSubscriptions();
+            }
+        }).start();
+        return subscriptionList;
     }
-
     private void insertAdsAtDb(Elements ads, boolean isHidden, String debugString) {
         if (ads != null) {
             for (Element ad : ads) {
@@ -229,4 +217,20 @@ public class ScanningService extends Service {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("!!! -- IN DESTROY!!!");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                scrapedAdDao.deleteAll();
+            }
+        }).start();
+
+        handler.removeCallbacks(runnable);
+        stopForeground(true);
+        stopSelf();
+        IS_SERVICE_RUNNING = false;
+    }
 }
