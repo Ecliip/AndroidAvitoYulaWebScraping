@@ -35,4 +35,7 @@ public interface ScrapedAdDao {
 
     @Query("DELETE FROM ScrapedAd")
     void deleteAll();
+
+    @Query("SELECT * FROM ScrapedAd WHERE hidden = 0")
+    LiveData<List<ScrapedAd>> listVisibleAds();
 }

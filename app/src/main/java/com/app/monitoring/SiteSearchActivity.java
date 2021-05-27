@@ -135,13 +135,11 @@ public class SiteSearchActivity extends AppCompatActivity implements AdListAdapt
         final Ad hiddenAd = new Ad(ad.getAvito_ad_id(), ad.getName(), ad.getUrl(), ad.getUser_query());
         mAdViewModel.insert(hiddenAd);
         mScrapedAdViewModel.deleteScrapedAd(ad);
-
         Toast.makeText(this, R.string.textOnDelete, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSave(int position) {
-
     }
 
     @Override

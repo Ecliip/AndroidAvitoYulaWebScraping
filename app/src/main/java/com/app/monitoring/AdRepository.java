@@ -15,6 +15,7 @@ class AdRepository {
     private LiveData<List<ScrapedAd>> mAllScrapedAds;
     private LiveData<List<AdSubscription>> mAllAdSubscriptions;
     List<AdSubscription> mListAdSubscriptions;
+    private LiveData<List<ScrapedAd>> mAllVisibleScrapedAds;
     //    private List<ScrapedAd> mAllScrapedAdsList;
 
     // Note that in order to unit test the AdRepository, you have to remove the Application
@@ -29,6 +30,7 @@ class AdRepository {
 
         mAllAds = mAdDAO.listAds();
         mAllScrapedAds = mScrapedAdDao.listAds();
+        mAllVisibleScrapedAds = mScrapedAdDao.listVisibleAds();
         mAllAdSubscriptions = mAdSubcriptionDao.listLiveDataAdSubscriptions();
 //        mListAdSubscriptions = mAdSubcriptionDao.listSubscriptions();
 //        mAllScrapedAdsList = mScrapedAdDao.ArayListScrapedAd();
@@ -42,6 +44,10 @@ class AdRepository {
 
     LiveData<List<ScrapedAd>> getAllScrapedAds() {
         return mAllScrapedAds;
+    }
+
+    LiveData<List<ScrapedAd>> getmAllVisibleScrapedAds() {
+        return mAllVisibleScrapedAds;
     }
 
     LiveData<List<AdSubscription>> getAllAdSubscriptions() {

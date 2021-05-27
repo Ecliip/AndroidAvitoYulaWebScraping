@@ -31,7 +31,6 @@ public class ObserverService extends LifecycleService {
     private ScrapedAdViewModel mScrapedAdViewModel;
     private AdRepository myRepository;
     private static final String CHANNEL_ID = "1";
-
     public ObserverService() {
         super();
     }
