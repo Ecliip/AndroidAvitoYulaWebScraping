@@ -44,7 +44,7 @@ public class ScanningService extends LifecycleService {
     private Handler handler;
     public static boolean IS_SERVICE_RUNNING = false;
     AdRepository adRepository;
-    private String currentUrl;
+    private static String currentUrl;
     private int urlCounter = 0;
     private int [] controller;
     private AdDAO adDao;
@@ -52,6 +52,7 @@ public class ScanningService extends LifecycleService {
     private AdSubscriptionDao adSubscriptionDao;
     private Runnable runnable;
     private AdRepository myRepository;
+    private Intent intent;
 
     @Override
     public void onCreate() {
@@ -64,13 +65,14 @@ public class ScanningService extends LifecycleService {
         Log.i(TAG, "inside onCreate");
         scrapedAdDao = AppDatabase.getDatabase(getApplicationContext()).scrapedAdDao();
         adSubscriptionDao = AppDatabase.getDatabase(getApplicationContext()).adSubscriptionDao();
+        intent = new Intent(this, EmbeddedPageActivity.class);
+
 
         createNotificationChannelForAds();
         myRepository = new AdRepository(getApplication());
         myRepository.getmAllVisibleScrapedAds().observe(this, ads -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Long countAds = ads.stream().count();
-
                 synchronized (this) {
                     try {
                         wait(1000);
@@ -80,7 +82,7 @@ public class ScanningService extends LifecycleService {
                     if (countAds > 0) {
                         String name = "New ads in the site";
                         String description = String.format("Check for new %s ads", countAds);
-                        Intent intent = new Intent(this, EmbeddedPageActivity.class);
+                        intent = new Intent(this, EmbeddedPageActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
@@ -231,7 +233,6 @@ public class ScanningService extends LifecycleService {
     }
 
 //    TODO: this function gives NullPointerException
-
     private List<AdSubscription> accessAllSubscriptions() {
         Log.i(TAG, "INSIDE accessAllSubscriptions()");
         // TODO: access the list of subscription
@@ -248,6 +249,7 @@ public class ScanningService extends LifecycleService {
         }
         return subscriptionList;
     }
+
     private void insertAdsAtDb(Elements ads, boolean isHidden, String debugString) {
         if (ads != null) {
             for (Element ad : ads) {
@@ -299,5 +301,9 @@ public class ScanningService extends LifecycleService {
         stopForeground(true);
         stopSelf();
         IS_SERVICE_RUNNING = false;
+    }
+
+    public static String getCurrentUrl() {
+        return currentUrl;
     }
 }
